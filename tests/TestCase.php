@@ -2,11 +2,15 @@
 
 namespace Cleargoal\Blog\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Cleargoal\Blog\BlogServiceProvider;
 use Cleargoal\Blog\Contracts\BlogAuthor;
+use Cleargoal\Blog\Traits\HasBlogPosts;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
@@ -16,7 +20,7 @@ class TestCase extends Orchestra
 
         // Enable foreign key constraints for SQLite
         if (config('database.connections.testing.driver') === 'sqlite') {
-            \Illuminate\Support\Facades\DB::statement('PRAGMA foreign_keys = ON;');
+            DB::statement('PRAGMA foreign_keys = ON;');
         }
 
         // Run blog migration manually
@@ -24,7 +28,7 @@ class TestCase extends Orchestra
         $migration->up();
 
         // Create users table for testing
-        \Illuminate\Support\Facades\Schema::create('users', function ($table) {
+        Schema::create('users', function ($table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -103,8 +107,8 @@ class TestCase extends Orchestra
         $counter++;
 
         return TestUser::create(array_merge([
-            'name' => 'Test User ' . $counter,
-            'email' => 'test' . $counter . '@example.com',
+            'name' => 'Test User '.$counter,
+            'email' => 'test'.$counter.'@example.com',
             'is_admin' => false,
             'can_blog' => true,
         ], $attributes));
@@ -127,12 +131,13 @@ class TestCase extends Orchestra
 /**
  * Test User Model implementing BlogAuthor interface.
  */
-class TestUser extends \Illuminate\Database\Eloquent\Model implements BlogAuthor, \Illuminate\Contracts\Auth\Authenticatable
+class TestUser extends Model implements \Illuminate\Contracts\Auth\Authenticatable, BlogAuthor
 {
-    use \Cleargoal\Blog\Traits\HasBlogPosts;
-    use \Illuminate\Auth\Authenticatable;
+    use Authenticatable;
+    use HasBlogPosts;
 
     protected $table = 'users';
+
     protected $guarded = [];
 
     public function getId(): int

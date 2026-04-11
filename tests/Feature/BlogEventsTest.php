@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Event;
 use Cleargoal\Blog\Events\BlogCommentApproved;
 use Cleargoal\Blog\Events\BlogCommentPosted;
 use Cleargoal\Blog\Events\BlogPostCreated;
@@ -9,8 +8,7 @@ use Cleargoal\Blog\Events\BlogPostPublished;
 use Cleargoal\Blog\Events\BlogPostUpdated;
 use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
-use Cleargoal\Blog\Tests\TestCase;
-
+use Illuminate\Support\Facades\Event;
 
 it('dispatches BlogPostCreated event when post is created', function () {
     Event::fake([BlogPostCreated::class]);

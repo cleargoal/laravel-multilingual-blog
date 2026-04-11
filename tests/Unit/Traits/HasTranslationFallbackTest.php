@@ -1,8 +1,6 @@
 <?php
 
 use Cleargoal\Blog\Models\BlogPost;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('returns translation for requested locale', function () {
     $user = $this->createUser();

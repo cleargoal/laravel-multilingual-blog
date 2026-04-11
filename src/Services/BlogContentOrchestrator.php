@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Services;
 
-
+use Cleargoal\Blog\Contracts\BlogAuthor;
 use Cleargoal\Blog\Jobs\TranslateBlogPostJob;
 use Cleargoal\Blog\Models\BlogCategory;
 use Cleargoal\Blog\Models\BlogPost;
@@ -299,7 +299,7 @@ class BlogContentOrchestrator
         $author = $userModel::where('is_demo', false)
             ->inRandomOrder()
             ->get()
-            ->filter(fn($user) => $user instanceof \Cleargoal\Blog\Contracts\BlogAuthor && $user->canManageBlogPosts())
+            ->filter(fn ($user) => $user instanceof BlogAuthor && $user->canManageBlogPosts())
             ->first();
 
         if (! $author) {

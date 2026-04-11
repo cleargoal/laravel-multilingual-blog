@@ -5,17 +5,21 @@ namespace Cleargoal\Blog\Http\Controllers;
 use Cleargoal\Blog\Actions\Blog\GetBlogIndexData;
 use Cleargoal\Blog\Actions\Blog\GetBlogPostForShow;
 use Cleargoal\Blog\Actions\Blog\SyncPostTags;
-
+use Cleargoal\Blog\Contracts\BlogAuthor;
 use Cleargoal\Blog\Jobs\TranslateBlogPostJob;
 use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogPostRating;
 use Cleargoal\Blog\Models\PostTag;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class BlogController extends Controller
 {
-    public function index(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function index(Request $request): Factory|View
     {
         $search = $request->get('search');
         $categorySlug = null;
@@ -28,19 +32,19 @@ class BlogController extends Controller
         return view('blog::index', compact('posts', 'categories', 'popularTags'));
     }
 
-    public function show(Request $request, $slug): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function show(Request $request, $slug): Factory|View
     {
         // Get post data using the action
         $data = app(GetBlogPostForShow::class)->execute($slug);
 
-        if (!$data) {
+        if (! $data) {
             abort(404);
         }
 
         return view('blog::show', $data);
     }
 
-    public function category($slug): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function category($slug): Factory|View
     {
         ['posts' => $posts, 'categories' => $categories, 'popularTags' => $popularTags] =
             app(GetBlogIndexData::class)->execute($slug, null, null);
@@ -48,7 +52,7 @@ class BlogController extends Controller
         return view('blog::category', compact('posts', 'categories', 'popularTags'));
     }
 
-    public function myPosts(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function myPosts(): Factory|View
     {
         $posts = BlogPost::where('user_id', auth()->id())
             ->with(['category'])
@@ -58,7 +62,7 @@ class BlogController extends Controller
         return view('blog.my-posts', ['posts' => $posts]);
     }
 
-    public function create(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function create(): Factory|View
     {
         $categories = BlogCategory::orderBy('sort_order')->get();
 
@@ -119,10 +123,10 @@ class BlogController extends Controller
         return redirect()->route('my.blog.index')->with('success', __('Blog post created successfully!'));
     }
 
-    public function edit(BlogPost $post): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function edit(BlogPost $post): Factory|View
     {
         // Authorization check
-        if ($post->author_id !== auth()->id() && (! auth()->user()->isAdmin() && ! auth()->user()->isModerator())) {
+        if ($post->author_id !== auth()->id() && ! $this->currentUserIsAdminOrModerator()) {
             abort(403);
         }
 
@@ -134,7 +138,7 @@ class BlogController extends Controller
     public function update(Request $request, BlogPost $post)
     {
         // Authorization check
-        if ($post->author_id !== auth()->id() && (! auth()->user()->isAdmin() && ! auth()->user()->isModerator())) {
+        if ($post->author_id !== auth()->id() && ! $this->currentUserIsAdminOrModerator()) {
             abort(403);
         }
 
@@ -202,7 +206,7 @@ class BlogController extends Controller
         }
 
         // Update or create rating
-        $blogPostRatingModel = config('blog.models.blog_post_rating', \Cleargoal\Blog\Models\BlogPostRating::class);
+        $blogPostRatingModel = config('blog.models.blog_post_rating', BlogPostRating::class);
         $blogPostRatingModel::updateOrCreate(
             [
                 'user_id' => auth()->id(),
@@ -223,15 +227,15 @@ class BlogController extends Controller
             return back()->with('error', __('You can only favorite published posts.'));
         }
 
-        $user = auth()->user();
+        $userId = auth()->id();
 
-        if ($post->isFavoritedByUser($user->id)) {
+        if ($post->isFavoritedByUser($userId)) {
             // Unfavorite
-            $post->favoritedBy()->detach($user->id);
+            $post->favoritedBy()->detach($userId);
             $message = __('Article removed from your favorites.');
         } else {
             // Favorite
-            $post->favoritedBy()->attach($user->id);
+            $post->favoritedBy()->attach($userId);
             $message = __('Article added to your favorites!');
         }
 
@@ -241,7 +245,7 @@ class BlogController extends Controller
     public function destroy(BlogPost $post)
     {
         // Authorization check
-        if ($post->author_id !== auth()->id() && (! auth()->user()->isAdmin() && ! auth()->user()->isModerator())) {
+        if ($post->author_id !== auth()->id() && ! $this->currentUserIsAdminOrModerator()) {
             abort(403);
         }
 
@@ -250,7 +254,7 @@ class BlogController extends Controller
         return redirect()->route('my.blog.index')->with('success', __('Blog post deleted successfully!'));
     }
 
-    public function storeComment(\Illuminate\Http\Request $request, BlogPost $post)
+    public function storeComment(Request $request, BlogPost $post)
     {
         $validated = $request->validate([
             'content' => 'required|string|min:3|max:1000',
@@ -262,7 +266,7 @@ class BlogController extends Controller
             return back()->with('error', __('You can only comment on published posts.'));
         }
 
-        $blogCommentModel = config('blog.models.blog_comment', \Cleargoal\Blog\Models\BlogComment::class);
+        $blogCommentModel = config('blog.models.blog_comment', BlogComment::class);
 
         $comment = $blogCommentModel::create([
             'blog_post_id' => $post->id,
@@ -276,10 +280,10 @@ class BlogController extends Controller
         return back()->with('success', __('Comment posted successfully!'));
     }
 
-    public function destroyComment(\Cleargoal\Blog\Models\BlogComment $comment)
+    public function destroyComment(BlogComment $comment)
     {
         // Authorization check - only comment author or admins/moderators can delete
-        if ($comment->author_id !== auth()->id() && (! auth()->user()->isAdmin() && ! auth()->user()->isModerator())) {
+        if ($comment->author_id !== auth()->id() && ! $this->currentUserIsAdminOrModerator()) {
             abort(403);
         }
 
@@ -305,25 +309,6 @@ class BlogController extends Controller
         return response()->json([
             'url' => $url,
         ]);
-    }
-
-    public function trackServiceClick(BlogPost $post, \App\Models\ServiceOffering $offering)
-    {
-        // Verify this service belongs to the blog post author
-        if ($post->author_id !== $offering->freelancer_id) {
-            abort(404);
-        }
-
-        // Track the click
-        app(\App\Actions\Blog\TrackServiceLinkClick::class)->execute(
-            $post,
-            $offering,
-            auth()->id(),
-            request()->ip()
-        );
-
-        // Redirect to offering page
-        return redirect()->route('offerings.show', $offering->id);
     }
 
     /**
@@ -352,11 +337,23 @@ class BlogController extends Controller
     /**
      * Show posts with a specific tag
      */
-    public function tag(string $slug): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function tag(string $slug): Factory|View
     {
         ['posts' => $posts, 'categories' => $categories, 'popularTags' => $popularTags] =
             app(GetBlogIndexData::class)->execute(null, $slug, null);
 
         return view('blog::tag', compact('posts', 'categories', 'popularTags'));
+    }
+
+    private function currentUserIsAdminOrModerator(): bool
+    {
+        /** @var BlogAuthor|null $user */
+        $user = auth()->user();
+
+        if (! $user instanceof BlogAuthor) {
+            return false;
+        }
+
+        return $user->isAdmin() || $user->isModerator();
     }
 }

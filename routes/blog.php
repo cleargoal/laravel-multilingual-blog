@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Cleargoal\Blog\Http\Controllers\BlogController;
 use Cleargoal\Blog\Http\Controllers\UserBlogController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

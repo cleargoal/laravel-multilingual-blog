@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Models;
 
+use Cleargoal\Blog\Contracts\ContentSanitizer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Cleargoal\Blog\Contracts\ContentSanitizer;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -18,9 +19,9 @@ use Cleargoal\Blog\Contracts\ContentSanitizer;
  * @property int|null $parent_id
  * @property string $content
  * @property string $status
- * @property \Illuminate\Support\Carbon|null $approved_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $approved_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class BlogComment extends Model
 {

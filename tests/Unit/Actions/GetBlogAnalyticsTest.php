@@ -3,8 +3,7 @@
 use Cleargoal\Blog\Actions\Blog\GetBlogAnalytics;
 use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
-use Cleargoal\Blog\Tests\TestCase;
-
+use Cleargoal\Blog\Models\BlogPostRating;
 
 it('returns total posts count', function () {
     $user = $this->createUser();
@@ -24,7 +23,7 @@ it('returns total posts count', function () {
         'status' => 'draft',
     ]);
 
-    $action = new GetBlogAnalytics();
+    $action = new GetBlogAnalytics;
     $result = $action->execute($user);
 
     expect($result['totalPosts'])->toBe(2);
@@ -53,7 +52,7 @@ it('calculates total views', function () {
         'views_count' => 250,
     ]);
 
-    $action = new GetBlogAnalytics();
+    $action = new GetBlogAnalytics;
     $result = $action->execute($user);
 
     expect($result['totalViews'])->toBe(350);
@@ -92,7 +91,7 @@ it('counts comments by status', function () {
         'status' => 'pending',
     ]);
 
-    $action = new GetBlogAnalytics();
+    $action = new GetBlogAnalytics;
     $result = $action->execute($user);
 
     expect($result['totalComments'])->toBe(3);
@@ -119,20 +118,20 @@ it('calculates average rating', function () {
         'published_at' => now(),
     ]);
 
-    \Cleargoal\Blog\Models\BlogPostRating::create([
+    BlogPostRating::create([
         'user_id' => $user->id,
         'blog_post_id' => $post1->id,
         'rating' => 5,
     ]);
 
     $user2 = $this->createUser();
-    \Cleargoal\Blog\Models\BlogPostRating::create([
+    BlogPostRating::create([
         'user_id' => $user2->id,
         'blog_post_id' => $post2->id,
         'rating' => 3,
     ]);
 
-    $action = new GetBlogAnalytics();
+    $action = new GetBlogAnalytics;
     $result = $action->execute($user);
 
     expect($result['averageRating'])->toBe(4.0);
@@ -160,7 +159,7 @@ it('returns most viewed posts', function () {
         'views_count' => 50,
     ]);
 
-    $action = new GetBlogAnalytics();
+    $action = new GetBlogAnalytics;
     $result = $action->execute($user);
 
     expect($result['mostViewedPosts'])->toHaveCount(2);
@@ -186,7 +185,7 @@ it('returns recent posts', function () {
         'published_at' => now()->subMonths(6),
     ]);
 
-    $action = new GetBlogAnalytics();
+    $action = new GetBlogAnalytics;
     $result = $action->execute($user);
 
     expect($result['recentPosts'])->toHaveCount(2);
@@ -216,7 +215,7 @@ it('excludes demo posts from analytics', function () {
         'views_count' => 500,
     ]);
 
-    $action = new GetBlogAnalytics();
+    $action = new GetBlogAnalytics;
     $result = $action->execute($user);
 
     expect($result['totalPosts'])->toBe(1);

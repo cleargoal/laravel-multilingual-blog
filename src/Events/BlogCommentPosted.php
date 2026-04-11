@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Events;
 
+use Cleargoal\Blog\Models\BlogComment;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Cleargoal\Blog\Models\BlogComment;
 
 class BlogCommentPosted
 {

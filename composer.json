@@ -31,6 +31,7 @@
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",
         "phpstan/phpstan": "^2.0",
+        "larastan/larastan": "^3.0",
         "laravel/pint": "^1.0"
     },
     "suggest": {

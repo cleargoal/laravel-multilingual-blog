@@ -4,8 +4,6 @@ use Cleargoal\Blog\Models\BlogCategory;
 use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\PostTag;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('displays blog index page', function () {
     $user = $this->createUser();

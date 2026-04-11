@@ -5,8 +5,6 @@ use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\BlogPostRating;
 use Cleargoal\Blog\Models\PostTag;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('belongs to an author', function () {
     $user = $this->createUser();

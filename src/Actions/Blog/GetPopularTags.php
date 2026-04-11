@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Actions\Blog;
 
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 use Cleargoal\Blog\Models\PostTag;
+use Illuminate\Support\Facades\Cache;
 
 class GetPopularTags
 {
@@ -19,7 +18,7 @@ class GetPopularTags
         $cacheKey = "{$cachePrefix}.popular_tags";
         $cacheTtl = config('blog.cache.popular_tags_ttl', 3600);
 
-        if (!config('blog.cache.enabled', true)) {
+        if (! config('blog.cache.enabled', true)) {
             return $this->getPopularTags($limit);
         }
 

@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog;
 
-use Illuminate\Support\ServiceProvider;
+use Cleargoal\Blog\Console\Commands\BlogInstallCommand;
 use Cleargoal\Blog\Contracts\BlogAuthorizer;
 use Cleargoal\Blog\Contracts\BlogTranslationProvider;
 use Cleargoal\Blog\Contracts\ContentSanitizer;
+use Cleargoal\Blog\Filament\Resources\BlogCategoryResource;
+use Cleargoal\Blog\Filament\Resources\BlogPostResource;
+use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Observers\BlogCommentObserver;
 use Cleargoal\Blog\Observers\BlogPostCacheObserver;
 use Cleargoal\Blog\Observers\BlogPostObserver;
 use Cleargoal\Blog\Services\DefaultBlogAuthorizer;
 use Cleargoal\Blog\Services\DefaultContentSanitizer;
+use Filament\Facades\Filament;
+use Illuminate\Support\ServiceProvider;
 
 class BlogServiceProvider extends ServiceProvider
 {
@@ -90,13 +95,13 @@ class BlogServiceProvider extends ServiceProvider
         // Register commands
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \Cleargoal\Blog\Console\Commands\BlogInstallCommand::class,
+                BlogInstallCommand::class,
             ]);
         }
 
         // Register observers
         BlogPost::observe(BlogPostObserver::class);
-        \Cleargoal\Blog\Models\BlogComment::observe(BlogCommentObserver::class);
+        BlogComment::observe(BlogCommentObserver::class);
 
         if (config('blog.cache.enabled')) {
             BlogPost::observe(BlogPostCacheObserver::class);
@@ -113,10 +118,10 @@ class BlogServiceProvider extends ServiceProvider
      */
     protected function bootFilament(): void
     {
-        \Filament\Facades\Filament::serving(function () {
-            \Filament\Facades\Filament::registerResources([
-                \Cleargoal\Blog\Filament\Resources\BlogPostResource::class,
-                \Cleargoal\Blog\Filament\Resources\BlogCategoryResource::class,
+        Filament::serving(function () {
+            Filament::registerResources([
+                BlogPostResource::class,
+                BlogCategoryResource::class,
             ]);
         });
     }

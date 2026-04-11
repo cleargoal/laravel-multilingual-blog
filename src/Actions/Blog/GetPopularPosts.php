@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Actions\Blog;
 
-use Illuminate\Support\Facades\Cache;
 use Cleargoal\Blog\Models\BlogPost;
+use Illuminate\Support\Facades\Cache;
 
 class GetPopularPosts
 {
@@ -21,7 +21,7 @@ class GetPopularPosts
         $cacheKey = "{$cachePrefix}.popular_posts.{$period}.{$limit}";
         $cacheTtl = config('blog.cache.ttl', 3600);
 
-        if (!config('blog.cache.enabled', true)) {
+        if (! config('blog.cache.enabled', true)) {
             return $this->getPopularPosts($limit, $period);
         }
 

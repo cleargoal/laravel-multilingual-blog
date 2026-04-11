@@ -2,11 +2,9 @@
 
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Services\DefaultBlogAuthorizer;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('allows anyone to view published posts', function () {
-    $authorizer = new DefaultBlogAuthorizer();
+    $authorizer = new DefaultBlogAuthorizer;
     $author = $this->createUser();
     $viewer = $this->createUser(['email' => 'viewer@example.com', 'can_blog' => false]);
 
@@ -22,7 +20,7 @@ it('allows anyone to view published posts', function () {
 });
 
 it('only allows author and managers to view draft posts', function () {
-    $authorizer = new DefaultBlogAuthorizer();
+    $authorizer = new DefaultBlogAuthorizer;
     $author = $this->createUser();
     $viewer = $this->createUser(['email' => 'viewer@example.com', 'can_blog' => false]);
     $admin = $this->createAdmin(['email' => 'admin@example.com']);
@@ -40,7 +38,7 @@ it('only allows author and managers to view draft posts', function () {
 });
 
 it('allows only users with canManageBlogPosts to create posts', function () {
-    $authorizer = new DefaultBlogAuthorizer();
+    $authorizer = new DefaultBlogAuthorizer;
     $blogger = $this->createUser(['can_blog' => true]);
     $regular = $this->createUser(['email' => 'regular@example.com', 'can_blog' => false]);
 
@@ -49,7 +47,7 @@ it('allows only users with canManageBlogPosts to create posts', function () {
 });
 
 it('allows post author and managers to update posts', function () {
-    $authorizer = new DefaultBlogAuthorizer();
+    $authorizer = new DefaultBlogAuthorizer;
     $author = $this->createUser();
     $otherUser = $this->createUser(['email' => 'other@example.com']);
     $admin = $this->createAdmin(['email' => 'admin@example.com']);
@@ -67,7 +65,7 @@ it('allows post author and managers to update posts', function () {
 });
 
 it('allows post author and managers to delete posts', function () {
-    $authorizer = new DefaultBlogAuthorizer();
+    $authorizer = new DefaultBlogAuthorizer;
     $author = $this->createUser();
     $otherUser = $this->createUser(['email' => 'other@example.com']);
     $admin = $this->createAdmin(['email' => 'admin@example.com']);
@@ -85,7 +83,7 @@ it('allows post author and managers to delete posts', function () {
 });
 
 it('allows only managers to publish posts', function () {
-    $authorizer = new DefaultBlogAuthorizer();
+    $authorizer = new DefaultBlogAuthorizer;
     $blogger = $this->createUser(['can_blog' => true, 'is_admin' => false]);
     $admin = $this->createAdmin();
 

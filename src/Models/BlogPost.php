@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Models;
 
+use Cleargoal\Blog\Contracts\BlogAuthor;
+use Cleargoal\Blog\Contracts\ContentSanitizer;
+use Cleargoal\Blog\Traits\HasTranslationFallback;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,14 +14,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
-use Cleargoal\Blog\Contracts\ContentSanitizer;
-use Cleargoal\Blog\Traits\HasTranslationFallback;
 
+/**
+ * @property Carbon|null $published_at
+ */
 class BlogPost extends Model implements HasMedia
 {
     use HasFactory, HasSlug, HasTranslationFallback, HasTranslations, InteractsWithMedia, SoftDeletes;
@@ -131,16 +136,12 @@ class BlogPost extends Model implements HasMedia
 
     /**
      * Get the author of this blog post.
-     * @return BelongsTo
      */
     public function author(): BelongsTo
     {
         return $this->belongsTo(config('blog.models.user'), 'author_id');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(config('blog.models.blog_category', BlogCategory::class), 'category_id');
@@ -333,17 +334,21 @@ class BlogPost extends Model implements HasMedia
             ->latest('published_at')
             ->limit(config('blog.rss.items_limit', 50))
             ->get()
-            ->map(
-                fn ($post) => [
+            ->map(static function ($post) use ($locale): array {
+                /** @var BlogPost $post */
+                /** @var BlogAuthor|null $author */
+                $author = $post->author;
+
+                return [
                     'id' => route(config('blog.routes.name_prefix').'show', $post->slug),
                     'title' => $post->getTranslation('title', $locale),
                     'summary' => $post->getTranslation('excerpt', $locale),
                     'updated' => $post->updated_at,
                     'link' => route(config('blog.routes.name_prefix').'show', $post->slug),
-                    'authorName' => $post->author->getName(),
+                    'authorName' => $author?->getName() ?? '',
                     'category' => $post->category?->getTranslation('name', $locale),
-                ]
-            );
+                ];
+            });
     }
 
     /**
@@ -415,7 +420,7 @@ class BlogPost extends Model implements HasMedia
     {
         return $query->where(function ($q) use ($keyword) {
             $q->where('title', 'like', "%{$keyword}%")
-              ->orWhere('content', 'like', "%{$keyword}%");
+                ->orWhere('content', 'like', "%{$keyword}%");
         });
     }
 

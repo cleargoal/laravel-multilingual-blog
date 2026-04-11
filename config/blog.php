@@ -1,5 +1,14 @@
 <?php
 
+use App\Models\User;
+use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogComment;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogPostRating;
+use Cleargoal\Blog\Models\PostTag;
+use Cleargoal\Blog\Services\DefaultBlogAuthorizer;
+use Cleargoal\Blog\Services\DefaultContentSanitizer;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -11,12 +20,12 @@ return [
     |
     */
     'models' => [
-        'blog_post' => \Cleargoal\Blog\Models\BlogPost::class,
-        'blog_category' => \Cleargoal\Blog\Models\BlogCategory::class,
-        'blog_comment' => \Cleargoal\Blog\Models\BlogComment::class,
-        'post_tag' => \Cleargoal\Blog\Models\PostTag::class,
-        'blog_post_rating' => \Cleargoal\Blog\Models\BlogPostRating::class,
-        'user' => \App\Models\User::class, // Your application's User model
+        'blog_post' => BlogPost::class,
+        'blog_category' => BlogCategory::class,
+        'blog_comment' => BlogComment::class,
+        'post_tag' => PostTag::class,
+        'blog_post_rating' => BlogPostRating::class,
+        'user' => User::class, // Your application's User model
     ],
 
     /*
@@ -73,7 +82,7 @@ return [
             'public' => ['web'],
             'user' => ['web', 'auth', 'verified'],
         ],
-        'authorizer' => \Cleargoal\Blog\Services\DefaultBlogAuthorizer::class,
+        'authorizer' => DefaultBlogAuthorizer::class,
     ],
 
     /*
@@ -85,7 +94,7 @@ return [
     | Default uses strip_tags(). For advanced sanitization, use mews/purifier.
     |
     */
-    'sanitizer' => \Cleargoal\Blog\Services\DefaultContentSanitizer::class,
+    'sanitizer' => DefaultContentSanitizer::class,
 
     /*
     |--------------------------------------------------------------------------

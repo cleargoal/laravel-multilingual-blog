@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Http\Controllers;
 
+use Cleargoal\Blog\Actions\Blog\GetBlogAnalytics;
+use Cleargoal\Blog\Contracts\BlogAuthor;
+use Cleargoal\Blog\Models\BlogPost;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Cleargoal\Blog\Actions\Blog\GetBlogAnalytics;
-use Cleargoal\Blog\Contracts\BlogAuthor;
 
 class UserBlogController extends Controller implements HasMiddleware
 {
@@ -22,8 +25,9 @@ class UserBlogController extends Controller implements HasMiddleware
     /**
      * Show blog analytics for the authenticated user.
      */
-    public function analytics(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function analytics(): Factory|View
     {
+        /** @var BlogAuthor|null $user */
         $user = auth()->user();
 
         // Verify user implements BlogAuthor interface
@@ -44,8 +48,9 @@ class UserBlogController extends Controller implements HasMiddleware
     /**
      * Show user's blog posts management page.
      */
-    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function index(): Factory|View
     {
+        /** @var BlogAuthor|null $user */
         $user = auth()->user();
 
         if (! $user instanceof BlogAuthor) {
@@ -67,14 +72,15 @@ class UserBlogController extends Controller implements HasMiddleware
     /**
      * Show user's favorited blog posts.
      */
-    public function favorites(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function favorites(): Factory|View
     {
+        /** @var BlogAuthor|null $user */
         $user = auth()->user();
 
-        $blogPostModel = config('blog.models.blog_post', \Cleargoal\Blog\Models\BlogPost::class);
+        $blogPostModel = config('blog.models.blog_post', BlogPost::class);
 
         $posts = $blogPostModel::whereHas('favoritedBy', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
+            $query->where('user_id', $user?->getId());
         })
             ->with(['category', 'tags'])
             ->latest()

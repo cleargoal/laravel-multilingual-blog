@@ -4,8 +4,6 @@ use Cleargoal\Blog\Actions\Blog\GetBlogIndexData;
 use Cleargoal\Blog\Models\BlogCategory;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\PostTag;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('returns paginated published posts', function () {
     $user = $this->createUser();
@@ -29,7 +27,7 @@ it('returns paginated published posts', function () {
         'status' => 'draft',
     ]);
 
-    $action = new GetBlogIndexData();
+    $action = new GetBlogIndexData;
     $result = $action->execute();
 
     expect($result['posts'])->toHaveCount(config('blog.posts_per_page', 10));
@@ -60,7 +58,7 @@ it('filters posts by category', function () {
         'published_at' => now(),
     ]);
 
-    $action = new GetBlogIndexData();
+    $action = new GetBlogIndexData;
     $result = $action->execute(categorySlug: 'laravel');
 
     expect($result['posts'])->toHaveCount(1);
@@ -91,7 +89,7 @@ it('filters posts by tag', function () {
         'published_at' => now(),
     ]);
 
-    $action = new GetBlogIndexData();
+    $action = new GetBlogIndexData;
     $result = $action->execute(tagSlug: 'php');
 
     expect($result['posts'])->toHaveCount(1);
@@ -117,7 +115,7 @@ it('searches posts by keyword', function () {
         'published_at' => now(),
     ]);
 
-    $action = new GetBlogIndexData();
+    $action = new GetBlogIndexData;
     $result = $action->execute(search: 'Laravel');
 
     expect($result['posts'])->toHaveCount(1);
@@ -137,7 +135,7 @@ it('returns popular tags', function () {
         'usage_count' => 1,
     ]);
 
-    $action = new GetBlogIndexData();
+    $action = new GetBlogIndexData;
     $result = $action->execute();
 
     expect($result['popularTags'])->toHaveCount(2);
@@ -169,7 +167,7 @@ it('returns categories with post counts', function () {
         'published_at' => now(),
     ]);
 
-    $action = new GetBlogIndexData();
+    $action = new GetBlogIndexData;
     $result = $action->execute();
 
     expect($result['categories'])->toHaveCount(1);
@@ -197,7 +195,7 @@ it('excludes demo posts from results', function () {
         'is_demo' => true,
     ]);
 
-    $action = new GetBlogIndexData();
+    $action = new GetBlogIndexData;
     $result = $action->execute();
 
     expect($result['posts'])->toHaveCount(1);

@@ -3,8 +3,6 @@
 use Cleargoal\Blog\Actions\Blog\SyncPostTags;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\PostTag;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('creates new tags and attaches them to post', function () {
     $user = $this->createUser();
@@ -15,7 +13,7 @@ it('creates new tags and attaches them to post', function () {
         'status' => 'draft',
     ]);
 
-    $action = new SyncPostTags();
+    $action = new SyncPostTags;
     $action->execute($post, ['Laravel', 'PHP', 'Testing']);
 
     expect($post->tags)->toHaveCount(3);
@@ -37,7 +35,7 @@ it('increments usage count when tag is attached', function () {
         'usage_count' => 5,
     ]);
 
-    $action = new SyncPostTags();
+    $action = new SyncPostTags;
     $action->execute($post, ['Laravel']);
 
     $tag->refresh();
@@ -64,7 +62,7 @@ it('decrements usage count when tag is removed', function () {
     $tag->refresh();
     expect($tag->usage_count)->toBe(11);
 
-    $action = new SyncPostTags();
+    $action = new SyncPostTags;
     $action->execute($post, []); // Remove all tags
 
     $tag->refresh();
@@ -86,7 +84,7 @@ it('reuses existing tags by slug', function () {
         'status' => 'draft',
     ]);
 
-    $action = new SyncPostTags();
+    $action = new SyncPostTags;
     $action->execute($post, ['Laravel']);
 
     expect(PostTag::count())->toBe(1);
@@ -110,7 +108,7 @@ it('handles empty tag array', function () {
     $post->tags()->attach($tag->id);
     expect($post->tags)->toHaveCount(1);
 
-    $action = new SyncPostTags();
+    $action = new SyncPostTags;
     $action->execute($post, []);
 
     $post->refresh();
@@ -126,7 +124,7 @@ it('handles mixed case and whitespace in tag names', function () {
         'status' => 'draft',
     ]);
 
-    $action = new SyncPostTags();
+    $action = new SyncPostTags;
     $action->execute($post, ['  Laravel  ', 'PHP', 'vue.js']);
 
     expect($post->tags)->toHaveCount(3);

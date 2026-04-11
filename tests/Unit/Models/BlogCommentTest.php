@@ -2,8 +2,6 @@
 
 use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('belongs to a blog post', function () {
     $user = $this->createUser();

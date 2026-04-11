@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Models;
 
+use Cleargoal\Blog\Traits\HasTranslationFallback;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
-use Cleargoal\Blog\Traits\HasTranslationFallback;
 
 class PostTag extends Model
 {
@@ -95,7 +96,7 @@ class PostTag extends Model
     public static function findOrCreateByName(string $name, string $locale = 'en'): self
     {
         // Create slug from name
-        $slug = \Illuminate\Support\Str::slug($name);
+        $slug = Str::slug($name);
 
         // Try to find by slug first (most efficient)
         $tag = static::where('slug', $slug)->first();

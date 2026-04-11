@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Actions\Blog;
 
-use Illuminate\Support\Facades\Cache;
 use Cleargoal\Blog\Contracts\BlogAuthor;
 use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\BlogPostRating;
+use Illuminate\Support\Facades\Cache;
 
 class GetBlogAnalytics
 {
@@ -18,7 +18,7 @@ class GetBlogAnalytics
         $cacheKey = "{$cachePrefix}.analytics.{$author->getId()}";
         $cacheTtl = config('blog.cache.ttl', 3600);
 
-        if (!config('blog.cache.enabled', true)) {
+        if (! config('blog.cache.enabled', true)) {
             return $this->calculateAnalytics($author);
         }
 

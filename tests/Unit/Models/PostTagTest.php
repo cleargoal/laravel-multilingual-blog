@@ -2,8 +2,6 @@
 
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\PostTag;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('increments usage count', function () {
     $tag = PostTag::create([

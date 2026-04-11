@@ -47,7 +47,8 @@ class DefaultBlogAuthorizer implements BlogAuthorizer
      */
     public function canUpdate(BlogAuthor $user, object $post): bool
     {
-        $isAdmin = method_exists($user, 'isAdmin') && $user->isAdmin();
+        $isAdmin = $user->isAdmin();
+
         return $post->author_id === $user->getId() || $isAdmin;
     }
 
@@ -58,7 +59,8 @@ class DefaultBlogAuthorizer implements BlogAuthorizer
      */
     public function canDelete(BlogAuthor $user, object $post): bool
     {
-        $isAdmin = method_exists($user, 'isAdmin') && $user->isAdmin();
+        $isAdmin = $user->isAdmin();
+
         return $post->author_id === $user->getId() || $isAdmin;
     }
 

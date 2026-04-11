@@ -9,10 +9,10 @@ interface BlogTranslationProvider
     /**
      * Translate text from one language to another.
      *
-     * @param  string  $text    Text to translate
-     * @param  string  $from    Source language code (e.g., 'en')
-     * @param  string  $to      Target language code (e.g., 'uk')
-     * @return string           Translated text
+     * @param  string  $text  Text to translate
+     * @param  string  $from  Source language code (e.g., 'en')
+     * @param  string  $to  Target language code (e.g., 'uk')
+     * @return string Translated text
      *
      * @throws \RuntimeException if translation fails
      */
@@ -29,4 +29,13 @@ interface BlogTranslationProvider
      * @return array<string>
      */
     public function supportedLanguages(): array;
+
+    /**
+     * Translate text to all configured languages.
+     *
+     * @param  string  $text  Text to translate
+     * @param  string  $fromLocale  Source language code (e.g., 'en')
+     * @return array<string, string>|null Keyed by locale, or null on failure
+     */
+    public function translateToAll(string $text, string $fromLocale): ?array;
 }

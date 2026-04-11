@@ -45,7 +45,7 @@ class GetBlogIndexData
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('content', 'like', "%{$search}%");
+                    ->orWhere('content', 'like', "%{$search}%");
             });
         }
 
@@ -57,7 +57,7 @@ class GetBlogIndexData
             'posts' => fn ($q) => $q->where('status', 'published')
                 ->where('is_demo', false)
                 ->whereNotNull('published_at')
-                ->where('published_at', '<=', now())
+                ->where('published_at', '<=', now()),
         ])->orderBy('sort_order')->get();
 
         // Get popular tags

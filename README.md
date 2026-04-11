@@ -39,7 +39,7 @@ A complete, production-ready multilingual blog system for Laravel with AI conten
 ### 1. Install via Composer
 
 ```bash
-composer require yourvendor/laravel-multilingual-blog
+composer require cleargoal/laravel-multilingual-blog
 ```
 
 ### 2. Run Installation Command

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cleargoal\Blog\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 class BlogInstallCommand extends Command
 {
@@ -109,7 +108,7 @@ class BlogInstallCommand extends Command
                 $this->call('migrate', ['--force' => true]);
                 $this->info('✓ Migrations completed');
             } catch (\Exception $e) {
-                $this->warn('Some migrations may have already been run: ' . $e->getMessage());
+                $this->warn('Some migrations may have already been run: '.$e->getMessage());
             }
             $this->newLine();
         } else {
@@ -145,6 +144,7 @@ class BlogInstallCommand extends Command
     {
         if (! class_exists('Cleargoal\\Blog\\Database\\Seeders\\BlogSeeder')) {
             $this->warn('BlogSeeder not found. Skipping seeding.');
+
             return;
         }
 

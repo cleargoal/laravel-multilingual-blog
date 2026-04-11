@@ -5,13 +5,11 @@ use Cleargoal\Blog\Models\BlogCategory;
 use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\PostTag;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('creates sample categories', function () {
     $this->createUser(); // Ensure at least one user exists
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     expect(BlogCategory::count())->toBeGreaterThan(0);
@@ -20,7 +18,7 @@ it('creates sample categories', function () {
 it('creates sample blog posts', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     expect(BlogPost::count())->toBeGreaterThan(0);
@@ -29,7 +27,7 @@ it('creates sample blog posts', function () {
 it('creates sample tags', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     expect(PostTag::count())->toBeGreaterThan(0);
@@ -38,7 +36,7 @@ it('creates sample tags', function () {
 it('creates sample comments', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     expect(BlogComment::count())->toBeGreaterThan(0);
@@ -47,7 +45,7 @@ it('creates sample comments', function () {
 it('assigns categories to posts', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     $postsWithCategories = BlogPost::whereNotNull('category_id')->count();
@@ -57,7 +55,7 @@ it('assigns categories to posts', function () {
 it('assigns tags to posts', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     $post = BlogPost::first();
@@ -67,7 +65,7 @@ it('assigns tags to posts', function () {
 it('creates posts in multiple statuses', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     $publishedPosts = BlogPost::where('status', 'published')->count();
@@ -80,7 +78,7 @@ it('creates posts in multiple statuses', function () {
 it('creates multilingual content', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     $post = BlogPost::first();
@@ -92,7 +90,7 @@ it('creates multilingual content', function () {
 it('sets published_at for published posts', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     $publishedPosts = BlogPost::where('status', 'published')->get();
@@ -105,7 +103,7 @@ it('sets published_at for published posts', function () {
 it('creates hierarchical categories', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     $categoriesWithParent = BlogCategory::whereNotNull('parent_id')->count();
@@ -115,7 +113,7 @@ it('creates hierarchical categories', function () {
 it('creates threaded comments', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     $repliesCount = BlogComment::whereNotNull('parent_id')->count();
@@ -125,7 +123,7 @@ it('creates threaded comments', function () {
 it('marks some posts as demo posts', function () {
     $this->createUser();
 
-    $seeder = new BlogSeeder();
+    $seeder = new BlogSeeder;
     $seeder->run();
 
     $demoPosts = BlogPost::where('is_demo', true)->count();

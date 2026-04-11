@@ -1,11 +1,11 @@
 <?php
 
 use Cleargoal\Blog\Actions\Blog\GetBlogPostForShow;
+use Cleargoal\Blog\Models\BlogCategory;
 use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogPostRating;
 use Cleargoal\Blog\Models\PostTag;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('retrieves post by slug with all relationships', function () {
     $user = $this->createUser();
@@ -24,7 +24,7 @@ it('retrieves post by slug with all relationships', function () {
     ]);
     $post->tags()->attach($tag->id);
 
-    $action = new GetBlogPostForShow();
+    $action = new GetBlogPostForShow;
     $result = $action->execute('test-post');
 
     expect($result['post']->id)->toBe($post->id);
@@ -45,7 +45,7 @@ it('increments view count when viewing post', function () {
         'views_count' => 10,
     ]);
 
-    $action = new GetBlogPostForShow();
+    $action = new GetBlogPostForShow;
     $action->execute('test-post');
 
     $post->refresh();
@@ -85,7 +85,7 @@ it('returns approved comments only', function () {
         'status' => 'rejected',
     ]);
 
-    $action = new GetBlogPostForShow();
+    $action = new GetBlogPostForShow;
     $result = $action->execute('test-post');
 
     expect($result['comments'])->toHaveCount(1);
@@ -94,7 +94,7 @@ it('returns approved comments only', function () {
 
 it('returns related posts from same category', function () {
     $user = $this->createUser();
-    $category = \Cleargoal\Blog\Models\BlogCategory::create([
+    $category = BlogCategory::create([
         'name' => ['en' => 'Laravel'],
         'slug' => 'laravel',
     ]);
@@ -119,7 +119,7 @@ it('returns related posts from same category', function () {
         'published_at' => now()->subDay(),
     ]);
 
-    $action = new GetBlogPostForShow();
+    $action = new GetBlogPostForShow;
     $result = $action->execute('main-post');
 
     expect($result['relatedPosts'])->toHaveCount(1);
@@ -137,20 +137,20 @@ it('calculates average rating', function () {
         'published_at' => now(),
     ]);
 
-    \Cleargoal\Blog\Models\BlogPostRating::create([
+    BlogPostRating::create([
         'user_id' => $user->id,
         'blog_post_id' => $post->id,
         'rating' => 5,
     ]);
 
     $user2 = $this->createUser();
-    \Cleargoal\Blog\Models\BlogPostRating::create([
+    BlogPostRating::create([
         'user_id' => $user2->id,
         'blog_post_id' => $post->id,
         'rating' => 3,
     ]);
 
-    $action = new GetBlogPostForShow();
+    $action = new GetBlogPostForShow;
     $result = $action->execute('test-post');
 
     expect($result['averageRating'])->toBe(4.0);
@@ -158,7 +158,7 @@ it('calculates average rating', function () {
 });
 
 it('returns null for non-existent post', function () {
-    $action = new GetBlogPostForShow();
+    $action = new GetBlogPostForShow;
     $result = $action->execute('non-existent-slug');
 
     expect($result)->toBeNull();
@@ -174,7 +174,7 @@ it('does not return draft posts', function () {
         'status' => 'draft',
     ]);
 
-    $action = new GetBlogPostForShow();
+    $action = new GetBlogPostForShow;
     $result = $action->execute('draft-post');
 
     expect($result)->toBeNull();

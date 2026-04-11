@@ -45,8 +45,8 @@ class DefaultContentSanitizer implements ContentSanitizer
         ];
 
         foreach ($dangerousAttributes as $attr) {
-            $html = preg_replace('/' . $attr . '\s*=\s*["\'][^"\']*["\']/i', '', $html);
-            $html = preg_replace('/' . $attr . '\s*=\s*[^\s>]*/i', '', $html);
+            $html = preg_replace('/'.$attr.'\s*=\s*["\'][^"\']*["\']/i', '', $html);
+            $html = preg_replace('/'.$attr.'\s*=\s*[^\s>]*/i', '', $html);
         }
 
         // Remove javascript: protocol from href and src attributes

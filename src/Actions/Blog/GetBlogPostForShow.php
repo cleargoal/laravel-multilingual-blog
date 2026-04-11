@@ -10,7 +10,6 @@ class GetBlogPostForShow
      * Get blog post by slug with related data.
      *
      * @param  string  $slug  The blog post slug
-     * @return array|null
      */
     public function execute(string $slug): ?array
     {
@@ -25,7 +24,7 @@ class GetBlogPostForShow
             ->with(['author', 'category', 'tags'])
             ->first();
 
-        if (!$post) {
+        if (! $post) {
             return null;
         }
 
@@ -65,5 +64,4 @@ class GetBlogPostForShow
             'ratingsCount' => $ratingsCount,
         ];
     }
-
 }

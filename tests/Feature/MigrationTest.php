@@ -1,8 +1,9 @@
 <?php
 
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogPostRating;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('creates all blog tables', function () {
     expect(Schema::hasTable('blog_categories'))->toBeTrue();
@@ -86,7 +87,7 @@ it('blog_comments table has all required columns', function () {
 
 it('blog_post_ratings table has unique constraint', function () {
     $user = $this->createUser();
-    $post = \Cleargoal\Blog\Models\BlogPost::create([
+    $post = BlogPost::create([
         'author_id' => $user->id,
         'title' => ['en' => 'Test Post'],
         'content' => ['en' => 'Content'],
@@ -95,16 +96,16 @@ it('blog_post_ratings table has unique constraint', function () {
     ]);
 
     // First rating should succeed
-    \Cleargoal\Blog\Models\BlogPostRating::create([
+    BlogPostRating::create([
         'user_id' => $user->id,
         'blog_post_id' => $post->id,
         'rating' => 5,
     ]);
 
     // Second rating by same user should fail due to unique constraint
-    expect(fn () => \Cleargoal\Blog\Models\BlogPostRating::create([
+    expect(fn () => BlogPostRating::create([
         'user_id' => $user->id,
         'blog_post_id' => $post->id,
         'rating' => 4,
-    ]))->toThrow(\Illuminate\Database\QueryException::class);
+    ]))->toThrow(QueryException::class);
 });

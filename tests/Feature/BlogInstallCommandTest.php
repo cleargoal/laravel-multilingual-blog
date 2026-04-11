@@ -1,9 +1,10 @@
 <?php
 
+use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogPost;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Cleargoal\Blog\Tests\TestCase;
-
+use Illuminate\Support\Facades\Schema;
 
 it('publishes config file', function () {
     $configPath = config_path('blog.php');
@@ -43,9 +44,9 @@ it('runs migrations when confirmed', function () {
         '--migrate' => true,
     ]);
 
-    expect(\Illuminate\Support\Facades\Schema::hasTable('blog_posts'))->toBeTrue();
-    expect(\Illuminate\Support\Facades\Schema::hasTable('blog_categories'))->toBeTrue();
-    expect(\Illuminate\Support\Facades\Schema::hasTable('blog_comments'))->toBeTrue();
+    expect(Schema::hasTable('blog_posts'))->toBeTrue();
+    expect(Schema::hasTable('blog_categories'))->toBeTrue();
+    expect(Schema::hasTable('blog_comments'))->toBeTrue();
 });
 
 it('displays success message', function () {
@@ -71,12 +72,12 @@ it('can seed sample data when requested', function () {
         '--seed' => true,
     ]);
 
-    expect(\Cleargoal\Blog\Models\BlogPost::count())->toBeGreaterThan(0);
-    expect(\Cleargoal\Blog\Models\BlogCategory::count())->toBeGreaterThan(0);
+    expect(BlogPost::count())->toBeGreaterThan(0);
+    expect(BlogCategory::count())->toBeGreaterThan(0);
 });
 
 it('skips seeding when not requested', function () {
     Artisan::call('blog:install', ['--no-interaction' => true]);
 
-    expect(\Cleargoal\Blog\Models\BlogPost::count())->toBe(0);
+    expect(BlogPost::count())->toBe(0);
 });

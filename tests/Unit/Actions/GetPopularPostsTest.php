@@ -2,8 +2,6 @@
 
 use Cleargoal\Blog\Actions\Blog\GetPopularPosts;
 use Cleargoal\Blog\Models\BlogPost;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('returns popular posts ordered by views', function () {
     $user = $this->createUser();
@@ -36,7 +34,7 @@ it('returns popular posts ordered by views', function () {
         'views_count' => 250,
     ]);
 
-    $action = new GetPopularPosts();
+    $action = new GetPopularPosts;
     $result = $action->execute(limit: 3, period: 'alltime');
 
     expect($result)->toHaveCount(3);
@@ -69,7 +67,7 @@ it('filters posts by time period for 7days', function () {
         'views_count' => 100,
     ]);
 
-    $action = new GetPopularPosts();
+    $action = new GetPopularPosts;
     $result = $action->execute(limit: 10, period: '7days');
 
     expect($result)->toHaveCount(1);
@@ -99,7 +97,7 @@ it('excludes demo posts', function () {
         'is_demo' => true,
     ]);
 
-    $action = new GetPopularPosts();
+    $action = new GetPopularPosts;
     $result = $action->execute(limit: 10, period: 'alltime');
 
     expect($result)->toHaveCount(1);

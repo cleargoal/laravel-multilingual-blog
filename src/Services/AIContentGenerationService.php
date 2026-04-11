@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Services;
 
-use Cleargoal\Blog\Models\PlatformSetting;
-use App\Services\AI\AnthropicContentProvider;
 use Illuminate\Support\Facades\Log;
 
 class AIContentGenerationService
 {
-    protected $provider;
+    protected mixed $provider;
 
     public function __construct()
     {
-        $providerName = PlatformSetting::get(
-            'blog_ai_provider',
-            config('blog-automation.ai.provider', 'anthropic')
-        );
+        $providerClass = config('blog-automation.ai.provider_class');
 
-        $this->provider = match ($providerName) {
-            'anthropic' => app(AnthropicContentProvider::class),
-            default => throw new \Exception("Unsupported AI provider: {$providerName}"),
-        };
+        if (! $providerClass || ! class_exists($providerClass)) {
+            throw new \RuntimeException(
+                'No AI content provider configured. Set blog-automation.ai.provider_class in your config.'
+            );
+        }
+
+        $this->provider = app($providerClass);
     }
 
     /**

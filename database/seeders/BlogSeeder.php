@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\PostTag;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class BlogSeeder extends Seeder
 {
@@ -29,6 +31,7 @@ class BlogSeeder extends Seeder
 
         if (! $author) {
             $this->command->warn('No users found. Please create a user first.');
+
             return;
         }
 
@@ -118,7 +121,7 @@ class BlogSeeder extends Seeder
         foreach ($tagNames as $en => $uk) {
             $tags[] = PostTag::create([
                 'name' => ['en' => $en, 'uk' => $uk],
-                'slug' => \Illuminate\Support\Str::slug($en),
+                'slug' => Str::slug($en),
                 'usage_count' => 0,
             ]);
         }
@@ -247,7 +250,7 @@ class BlogSeeder extends Seeder
      */
     protected function createComments($author, array $posts): void
     {
-        $blogCommentModel = config('blog.models.blog_comment', \Cleargoal\Blog\Models\BlogComment::class);
+        $blogCommentModel = config('blog.models.blog_comment', BlogComment::class);
 
         foreach ($posts as $post) {
             // Skip draft and demo posts

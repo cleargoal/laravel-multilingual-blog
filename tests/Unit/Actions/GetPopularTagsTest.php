@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Cache;
 use Cleargoal\Blog\Actions\Blog\GetPopularTags;
 use Cleargoal\Blog\Models\PostTag;
-use Cleargoal\Blog\Tests\TestCase;
-
+use Illuminate\Support\Facades\Cache;
 
 it('returns tags ordered by usage count', function () {
     PostTag::create([
@@ -25,7 +23,7 @@ it('returns tags ordered by usage count', function () {
         'usage_count' => 75,
     ]);
 
-    $action = new GetPopularTags();
+    $action = new GetPopularTags;
     $result = $action->execute(limit: 10);
 
     expect($result)->toHaveCount(3);
@@ -44,7 +42,7 @@ it('respects limit parameter', function () {
         ]);
     }
 
-    $action = new GetPopularTags();
+    $action = new GetPopularTags;
     $result = $action->execute(limit: 5);
 
     expect($result)->toHaveCount(5);
@@ -63,7 +61,7 @@ it('excludes tags with zero usage', function () {
         'usage_count' => 0,
     ]);
 
-    $action = new GetPopularTags();
+    $action = new GetPopularTags;
     $result = $action->execute(limit: 10);
 
     expect($result)->toHaveCount(1);
@@ -83,19 +81,19 @@ it('caches results when caching is enabled', function () {
 
     Cache::shouldReceive('remember')
         ->once()
-        ->with('blog.popular_tags', 60, \Mockery::any())
+        ->with('blog.popular_tags', 60, Mockery::any())
         ->andReturn([
             ['name' => 'Laravel', 'slug' => 'laravel', 'usage_count' => 50],
         ]);
 
-    $action = new GetPopularTags();
+    $action = new GetPopularTags;
     $result = $action->execute(limit: 10);
 
     expect($result)->toHaveCount(1);
 });
 
 it('returns empty array when no tags exist', function () {
-    $action = new GetPopularTags();
+    $action = new GetPopularTags;
     $result = $action->execute(limit: 10);
 
     expect($result)->toBeArray();
@@ -109,7 +107,7 @@ it('includes slug and name in result', function () {
         'usage_count' => 50,
     ]);
 
-    $action = new GetPopularTags();
+    $action = new GetPopularTags;
     $result = $action->execute(limit: 10);
 
     expect($result[0])->toHaveKeys(['name', 'slug', 'usage_count']);

@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Services;
 
-use App\Enums\UserRole;
 use Cleargoal\Blog\Models\BlogCategory;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\BlogRssImport;
-use Cleargoal\Blog\Models\PlatformSetting;
-use Cleargoal\Blog\Models\User;
-use App\Notifications\RSSImportError;
+use Cleargoal\Blog\Notifications\RSSImportError;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use willvincent\Feeds\Facades\FeedsFacade as Feeds;
@@ -28,7 +25,7 @@ class RSSFeedImportService
         try {
             $feed = Feeds::make(
                 $feedConfig['url'],
-                PlatformSetting::get('blog_rss_cache_ttl', config('blog-automation.rss_feeds.cache_ttl'))
+                config('blog-automation.rss_feeds.cache_ttl')
             );
 
             if (! $feed) {
@@ -104,7 +101,7 @@ class RSSFeedImportService
 
         // Check minimum word count
         $wordCount = str_word_count(strip_tags($content));
-        $minWords = PlatformSetting::get('blog_rss_content_min_words', config('blog-automation.rss_feeds.content_min_words', 300));
+        $minWords = config('blog-automation.rss_feeds.content_min_words', 300);
         if ($wordCount < $minWords) {
             return null;
         }
@@ -119,20 +116,12 @@ class RSSFeedImportService
         }
 
         // Get dedicated RSS author user
-        $author = \App\Models\User::where('email', 'rss-content@freelanc.io')->first();
+        $userModel = config('blog.models.user');
+        $author = $userModel::where('email', config('blog-automation.rss_feeds.author_email', 'rss-author@example.com'))->first();
 
-        // Fallback to first available content creator if RSS user doesn't exist
+        // Fallback to first available user
         if (! $author) {
-            $author = \App\Models\User::where('role', \App\Enums\UserRole::CONTENT_CREATOR)
-                ->where('is_demo', false)
-                ->first();
-        }
-
-        // Final fallback: any moderator
-        if (! $author) {
-            $author = \App\Models\User::where('role', \App\Enums\UserRole::MODERATOR)
-                ->where('is_demo', false)
-                ->first();
+            $author = $userModel::first();
         }
 
         if (! $author) {
@@ -143,7 +132,7 @@ class RSSFeedImportService
         $excerpt = $this->generateExcerpt($content);
 
         // Create blog post
-        $publishImmediately = PlatformSetting::get('blog_publish_immediately', config('blog-automation.scheduler.publish_immediately', false));
+        $publishImmediately = config('blog-automation.scheduler.publish_immediately', false);
         $post = BlogPost::create([
             'user_id' => $author->id,
             'category_id' => $category->id,
@@ -403,7 +392,14 @@ class RSSFeedImportService
      */
     protected function notifyAdmins($notification): void
     {
-        $admins = User::where('role', UserRole::ADMIN)->get();
+        $userModel = config('blog.models.user');
+        $adminEmails = config('blog.admin_emails', []);
+
+        if (empty($adminEmails)) {
+            return;
+        }
+
+        $admins = $userModel::whereIn('email', $adminEmails)->get();
 
         foreach ($admins as $admin) {
             $admin->notify($notification);

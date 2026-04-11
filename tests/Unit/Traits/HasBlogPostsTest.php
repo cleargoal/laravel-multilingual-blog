@@ -3,8 +3,6 @@
 use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\BlogPostRating;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('user has blogPosts relationship', function () {
     $user = $this->createUser();

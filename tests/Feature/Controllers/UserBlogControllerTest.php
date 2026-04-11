@@ -1,9 +1,8 @@
 <?php
 
+use Cleargoal\Blog\Models\BlogComment;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Models\BlogPostRating;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('authenticated user can post a comment', function () {
     $user = $this->createUser();
@@ -256,7 +255,7 @@ it('user can reply to a comment', function () {
         'published_at' => now(),
     ]);
 
-    $parentComment = \Cleargoal\Blog\Models\BlogComment::create([
+    $parentComment = BlogComment::create([
         'blog_post_id' => $post->id,
         'author_id' => $user->id,
         'content' => 'Parent comment',

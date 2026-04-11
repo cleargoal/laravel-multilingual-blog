@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Cache;
 use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Observers\BlogPostCacheObserver;
-use Cleargoal\Blog\Tests\TestCase;
-
+use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {
     // Enable cache for these tests

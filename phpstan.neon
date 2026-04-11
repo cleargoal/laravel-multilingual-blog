@@ -1,0 +1,24 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+
+    level: 5
+
+    ignoreErrors:
+        # Filament is an optional dependency — guarded by class_exists() at runtime
+        - '#Filament\\#'
+        # FeedsFacade is an optional dependency for RSS import
+        - '#FeedsFacade#'
+        # Package views are registered at runtime — view-string validation is not meaningful here
+        - '#expects view-string\|null#'
+        # HasBlogPosts trait is analysed when used by the host app's User model
+        - '#HasBlogPosts is used zero times#'
+        # UnsplashImageService is resolved from the container — host app provides the binding
+        - '#UnsplashImageService#'
+        # Larastan cannot resolve generic callback types in Eloquent Collection::map()
+        - '#map\(\) contains unresolvable type#'
+        # belongsTo() with dynamic config model string — Larastan cannot resolve related model type
+        - '#getTranslation\(\)#'

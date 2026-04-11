@@ -1,11 +1,9 @@
 <?php
 
 use Cleargoal\Blog\Services\DefaultContentSanitizer;
-use Cleargoal\Blog\Tests\TestCase;
-
 
 it('allows safe HTML tags', function () {
-    $sanitizer = new DefaultContentSanitizer();
+    $sanitizer = new DefaultContentSanitizer;
 
     $html = '<p>This is <strong>bold</strong> and <em>italic</em> text.</p>';
     $result = $sanitizer->sanitizeHtml($html);
@@ -14,7 +12,7 @@ it('allows safe HTML tags', function () {
 });
 
 it('removes dangerous script tags', function () {
-    $sanitizer = new DefaultContentSanitizer();
+    $sanitizer = new DefaultContentSanitizer;
 
     $html = '<p>Safe content</p><script>alert("XSS")</script>';
     $result = $sanitizer->sanitizeHtml($html);
@@ -25,7 +23,7 @@ it('removes dangerous script tags', function () {
 });
 
 it('removes onclick and other dangerous attributes', function () {
-    $sanitizer = new DefaultContentSanitizer();
+    $sanitizer = new DefaultContentSanitizer;
 
     $html = '<p onclick="alert(\'XSS\')">Click me</p>';
     $result = $sanitizer->sanitizeHtml($html);
@@ -35,7 +33,7 @@ it('removes onclick and other dangerous attributes', function () {
 });
 
 it('preserves allowed HTML structure', function () {
-    $sanitizer = new DefaultContentSanitizer();
+    $sanitizer = new DefaultContentSanitizer;
 
     $html = '<h1>Title</h1><p>Paragraph with <a href="#">link</a></p><ul><li>Item</li></ul>';
     $result = $sanitizer->sanitizeHtml($html);
@@ -48,7 +46,7 @@ it('preserves allowed HTML structure', function () {
 });
 
 it('strips all tags when using stripAllTags', function () {
-    $sanitizer = new DefaultContentSanitizer();
+    $sanitizer = new DefaultContentSanitizer;
 
     $html = '<p>This is <strong>bold</strong> text with <script>evil()</script></p>';
     $result = $sanitizer->stripAllTags($html);
@@ -59,7 +57,7 @@ it('strips all tags when using stripAllTags', function () {
 });
 
 it('handles HTML entities correctly', function () {
-    $sanitizer = new DefaultContentSanitizer();
+    $sanitizer = new DefaultContentSanitizer;
 
     $html = '<p>Price: &pound;100 &amp; &euro;90</p>';
     $result = $sanitizer->stripAllTags($html);

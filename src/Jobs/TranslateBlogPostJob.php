@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cleargoal\Blog\Jobs;
 
-use Cleargoal\Blog\Models\BlogPost;
 use Cleargoal\Blog\Contracts\BlogTranslationProvider;
+use Cleargoal\Blog\Models\BlogPost;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;

@@ -73,4 +73,25 @@ class DeepLTranslationAdapter implements BlogTranslationProvider
             'nb', 'ro', 'sk', 'sl', 'sv', 'tr', 'bg', 'et',
         ];
     }
+
+    public function translateToAll(string $text, string $fromLocale): ?array
+    {
+        $languages = config('blog.languages', ['en']);
+        $targets = array_filter($languages, fn ($lang) => $lang !== $fromLocale);
+        $translations = [$fromLocale => $text];
+
+        foreach ($targets as $target) {
+            if (! $this->canTranslate($fromLocale, $target)) {
+                continue;
+            }
+
+            try {
+                $translations[$target] = $this->translate($text, $fromLocale, $target);
+            } catch (\RuntimeException $e) {
+                return null;
+            }
+        }
+
+        return $translations;
+    }
 }
