@@ -1,0 +1,69 @@
+# Test Suite Status and Configuration
+
+status:
+  total_tests: 160
+  passing: 158
+  failing: 2
+  pass_rate: 98.75%
+  last_updated: "2026-04-06"
+
+breakdown:
+  unit_tests:
+    total: 105
+    passing: 105
+    categories:
+      - Actions: 32 tests
+      - Models: 36 tests
+      - Scopes: 10 tests
+      - Services: 12 tests
+      - Traits: 15 tests
+
+  feature_tests:
+    total: 55
+    passing: 53
+    failing: 2
+    categories:
+      - BlogSeederTest: 12 tests (all passing)
+      - BlogInstallCommandTest: 6 tests (all passing)
+      - BlogControllerTest: 11 tests (all passing)
+      - UserBlogControllerTest: 11 tests (2 failing)
+      - BlogEventsTest: 6 tests (all passing)
+
+failing_tests:
+  - name: "UserBlogControllerTest > it user can view their favorite posts"
+    file: tests/Feature/Controllers/UserBlogControllerTest.php:197
+    error: "404 on route('blog.favorites')"
+    note: "Route defined, controller exists, view exists - test environment routing issue"
+
+  - name: "UserBlogControllerTest > it user can view their blog posts"
+    file: tests/Feature/Controllers/UserBlogControllerTest.php:224
+    error: "404 on route('blog.my-posts')"
+    note: "Route defined, controller exists, view exists - test environment routing issue"
+
+test_environment:
+  database: ":memory: (SQLite)"
+  foreign_keys_enabled: true
+  test_user_model: "YourVendor\\Blog\\Tests\\TestUser"
+  migrations_run_manually: true
+
+commands:
+  all_tests: "./vendor/bin/pest --no-coverage"
+  unit_only: "./vendor/bin/pest tests/Unit/ --no-coverage"
+  feature_only: "./vendor/bin/pest tests/Feature/ --no-coverage"
+  specific_file: "./vendor/bin/pest tests/Unit/Models/BlogPostTest.php --no-coverage"
+  with_coverage: "./vendor/bin/pest --coverage"
+
+test_utilities:
+  test_case: tests/TestCase.php
+  factories: database/factories/
+  seeders: database/seeders/BlogSeeder.php
+
+test_helpers:
+  create_user: "$this->createUser(['can_blog' => true])"
+  create_admin: "$this->createAdmin()"
+  unique_emails: "Uses static counter for unique test emails"
+
+common_assertions:
+  translations: "$post->getTranslations('title')->toBe(['en' => 'Title'])"
+  relationships: "$post->relationLoaded('author')->toBeTrue()"
+  database: "$this->assertDatabaseHas('blog_posts', ['slug' => 'test'])"

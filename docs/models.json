@@ -1,0 +1,212 @@
+{
+  "models": {
+    "BlogPost": {
+      "file": "src/Models/BlogPost.php",
+      "table": "blog_posts",
+      "traits": ["HasFactory", "HasSlug", "HasTranslationFallback", "HasTranslations", "InteractsWithMedia", "SoftDeletes"],
+      "implements": ["HasMedia"],
+      "translatable_fields": ["title", "content", "excerpt"],
+      "relationships": {
+        "belongsTo": {
+          "author": {
+            "model": "config('blog.models.user')",
+            "foreign_key": "author_id",
+            "note": "User who created the post"
+          },
+          "category": {
+            "model": "BlogCategory",
+            "foreign_key": "category_id",
+            "nullable": true
+          }
+        },
+        "hasMany": {
+          "comments": "BlogComment",
+          "ratings": "BlogPostRating"
+        },
+        "belongsToMany": {
+          "tags": {
+            "model": "PostTag",
+            "pivot_table": "post_tag",
+            "foreign_key": "blog_post_id",
+            "related_key": "post_tag_id"
+          },
+          "favoritedBy": {
+            "model": "config('blog.models.user')",
+            "pivot_table": "blog_post_favorites",
+            "foreign_key": "blog_post_id",
+            "related_key": "user_id"
+          }
+        },
+        "hasOne": {
+          "rssImport": "BlogRssImport"
+        }
+      },
+      "scopes": [
+        "published()",
+        "draft()",
+        "byCategory($categoryId)",
+        "byTag($tagId)",
+        "search($keyword)",
+        "byAuthor($authorId)",
+        "excludeDemo()",
+        "featured()",
+        "notDemo()"
+      ],
+      "key_fields": {
+        "author_id": "Foreign key to users table",
+        "category_id": "Foreign key to blog_categories (nullable)",
+        "slug": "Unique slug (auto-generated)",
+        "status": "enum: draft|published|archived",
+        "original_locale": "Original language code (e.g., 'en')",
+        "is_demo": "Boolean flag for demo content",
+        "is_featured": "Boolean flag for featured posts",
+        "is_external": "Boolean flag for RSS imports",
+        "generated_by_ai": "Boolean flag for AI-generated content"
+      }
+    },
+    "BlogCategory": {
+      "file": "src/Models/BlogCategory.php",
+      "table": "blog_categories",
+      "traits": ["HasFactory", "HasSlug", "HasTranslations"],
+      "translatable_fields": ["name", "description"],
+      "relationships": {
+        "hasMany": {
+          "posts": "BlogPost",
+          "children": {
+            "model": "BlogCategory",
+            "foreign_key": "parent_id",
+            "note": "Sub-categories"
+          }
+        },
+        "belongsTo": {
+          "parent": {
+            "model": "BlogCategory",
+            "foreign_key": "parent_id",
+            "nullable": true,
+            "note": "Parent category for hierarchy"
+          }
+        }
+      },
+      "scopes": ["active()"],
+      "key_fields": {
+        "parent_id": "Self-referencing foreign key (nullable)",
+        "slug": "Unique slug",
+        "sort_order": "Integer for manual ordering",
+        "is_active": "Boolean visibility flag"
+      }
+    },
+    "BlogComment": {
+      "file": "src/Models/BlogComment.php",
+      "table": "blog_comments",
+      "traits": ["HasFactory", "SoftDeletes"],
+      "relationships": {
+        "belongsTo": {
+          "post": {
+            "model": "BlogPost",
+            "foreign_key": "blog_post_id"
+          },
+          "author": {
+            "model": "config('blog.models.user')",
+            "foreign_key": "author_id"
+          },
+          "parent": {
+            "model": "BlogComment",
+            "foreign_key": "parent_id",
+            "nullable": true,
+            "note": "For threaded comments"
+          }
+        },
+        "hasMany": {
+          "replies": {
+            "model": "BlogComment",
+            "foreign_key": "parent_id",
+            "note": "Child comments"
+          }
+        }
+      },
+      "scopes": ["approved()"],
+      "key_fields": {
+        "blog_post_id": "Foreign key to blog_posts",
+        "author_id": "Foreign key to users",
+        "parent_id": "Self-referencing for replies (nullable)",
+        "status": "enum: pending|approved|rejected",
+        "approved_at": "Timestamp of approval (nullable)"
+      },
+      "features": {
+        "html_sanitization": "Auto-sanitizes content on save via ContentSanitizer",
+        "cascade_delete": "Soft deletes cascade to child comments via model boot()"
+      }
+    },
+    "PostTag": {
+      "file": "src/Models/PostTag.php",
+      "table": "post_tags",
+      "traits": ["HasFactory", "HasSlug", "HasTranslations"],
+      "translatable_fields": ["name"],
+      "relationships": {
+        "belongsToMany": {
+          "posts": {
+            "model": "BlogPost",
+            "pivot_table": "post_tag",
+            "foreign_key": "post_tag_id",
+            "related_key": "blog_post_id"
+          }
+        }
+      },
+      "scopes": ["popular()"],
+      "key_fields": {
+        "slug": "Unique slug",
+        "usage_count": "Integer tracking how many posts use this tag"
+      },
+      "methods": {
+        "incrementUsage()": "Increments usage_count",
+        "decrementUsage()": "Decrements usage_count (min 0)",
+        "findOrCreateByName($name, $locale)": "Static method to find or create tag"
+      }
+    },
+    "BlogPostRating": {
+      "file": "src/Models/BlogPostRating.php",
+      "table": "blog_post_ratings",
+      "relationships": {
+        "belongsTo": {
+          "user": "config('blog.models.user')",
+          "blogPost": "BlogPost"
+        }
+      },
+      "key_fields": {
+        "user_id": "Foreign key to users",
+        "blog_post_id": "Foreign key to blog_posts",
+        "rating": "Integer 1-5"
+      },
+      "constraints": {
+        "unique": ["user_id", "blog_post_id"]
+      }
+    },
+    "BlogRssImport": {
+      "file": "src/Models/BlogRssImport.php",
+      "table": "blog_rss_imports",
+      "note": "Tracks RSS feed imports to prevent duplicates",
+      "key_fields": {
+        "feed_url": "Source RSS feed URL",
+        "item_guid": "Unique GUID from RSS item",
+        "blog_post_id": "Created blog post (nullable)",
+        "title_hash": "Hash of title for duplicate detection"
+      }
+    }
+  },
+  "pivot_tables": {
+    "post_tag": {
+      "columns": ["blog_post_id", "post_tag_id", "created_at", "updated_at"],
+      "unique": ["blog_post_id", "post_tag_id"]
+    },
+    "blog_post_favorites": {
+      "columns": ["user_id", "blog_post_id", "created_at", "updated_at"],
+      "unique": ["user_id", "blog_post_id"]
+    }
+  },
+  "important_notes": {
+    "author_vs_user": "All models use 'author_id' not 'user_id' (except ratings/favorites pivot tables)",
+    "translations": "Use getTranslations('field') in tests, not direct property access",
+    "soft_deletes": "BlogPost and BlogComment use soft deletes with custom cascade logic",
+    "foreign_keys": "SQLite tests require 'PRAGMA foreign_keys = ON' in TestCase::setUp()"
+  }
+}
