@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Actions\Blog;
+namespace Cleargoal\Blog\Actions\Blog;
 
 use Illuminate\Support\Facades\Cache;
-use YourVendor\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogPost;
 
 class GetPopularPosts
 {

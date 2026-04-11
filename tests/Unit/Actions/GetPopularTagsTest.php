@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
-use YourVendor\Blog\Actions\Blog\GetPopularTags;
-use YourVendor\Blog\Models\PostTag;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Actions\Blog\GetPopularTags;
+use Cleargoal\Blog\Models\PostTag;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('returns tags ordered by usage count', function () {

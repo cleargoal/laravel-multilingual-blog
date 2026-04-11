@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Actions\Blog;
+namespace Cleargoal\Blog\Actions\Blog;
 
 use Illuminate\Support\Facades\Cache;
-use YourVendor\Blog\Contracts\BlogAuthor;
-use YourVendor\Blog\Models\BlogComment;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\BlogPostRating;
+use Cleargoal\Blog\Contracts\BlogAuthor;
+use Cleargoal\Blog\Models\BlogComment;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogPostRating;
 
 class GetBlogAnalytics
 {

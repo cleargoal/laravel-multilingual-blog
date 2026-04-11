@@ -1,12 +1,12 @@
 <?php
 
-namespace YourVendor\Blog\Tests;
+namespace Cleargoal\Blog\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as Orchestra;
-use YourVendor\Blog\BlogServiceProvider;
-use YourVendor\Blog\Contracts\BlogAuthor;
+use Cleargoal\Blog\BlogServiceProvider;
+use Cleargoal\Blog\Contracts\BlogAuthor;
 
 class TestCase extends Orchestra
 {
@@ -35,7 +35,7 @@ class TestCase extends Orchestra
         });
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'YourVendor\\Blog\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Cleargoal\\Blog\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
@@ -129,7 +129,7 @@ class TestCase extends Orchestra
  */
 class TestUser extends \Illuminate\Database\Eloquent\Model implements BlogAuthor, \Illuminate\Contracts\Auth\Authenticatable
 {
-    use \YourVendor\Blog\Traits\HasBlogPosts;
+    use \Cleargoal\Blog\Traits\HasBlogPosts;
     use \Illuminate\Auth\Authenticatable;
 
     protected $table = 'users';

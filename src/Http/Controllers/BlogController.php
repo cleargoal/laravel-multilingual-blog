@@ -1,15 +1,15 @@
 <?php
 
-namespace YourVendor\Blog\Http\Controllers;
+namespace Cleargoal\Blog\Http\Controllers;
 
-use YourVendor\Blog\Actions\Blog\GetBlogIndexData;
-use YourVendor\Blog\Actions\Blog\GetBlogPostForShow;
-use YourVendor\Blog\Actions\Blog\SyncPostTags;
+use Cleargoal\Blog\Actions\Blog\GetBlogIndexData;
+use Cleargoal\Blog\Actions\Blog\GetBlogPostForShow;
+use Cleargoal\Blog\Actions\Blog\SyncPostTags;
 
-use YourVendor\Blog\Jobs\TranslateBlogPostJob;
-use YourVendor\Blog\Models\BlogCategory;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\PostTag;
+use Cleargoal\Blog\Jobs\TranslateBlogPostJob;
+use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\PostTag;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -202,7 +202,7 @@ class BlogController extends Controller
         }
 
         // Update or create rating
-        $blogPostRatingModel = config('blog.models.blog_post_rating', \YourVendor\Blog\Models\BlogPostRating::class);
+        $blogPostRatingModel = config('blog.models.blog_post_rating', \Cleargoal\Blog\Models\BlogPostRating::class);
         $blogPostRatingModel::updateOrCreate(
             [
                 'user_id' => auth()->id(),
@@ -262,7 +262,7 @@ class BlogController extends Controller
             return back()->with('error', __('You can only comment on published posts.'));
         }
 
-        $blogCommentModel = config('blog.models.blog_comment', \YourVendor\Blog\Models\BlogComment::class);
+        $blogCommentModel = config('blog.models.blog_comment', \Cleargoal\Blog\Models\BlogComment::class);
 
         $comment = $blogCommentModel::create([
             'blog_post_id' => $post->id,
@@ -276,7 +276,7 @@ class BlogController extends Controller
         return back()->with('success', __('Comment posted successfully!'));
     }
 
-    public function destroyComment(\YourVendor\Blog\Models\BlogComment $comment)
+    public function destroyComment(\Cleargoal\Blog\Models\BlogComment $comment)
     {
         // Authorization check - only comment author or admins/moderators can delete
         if ($comment->author_id !== auth()->id() && (! auth()->user()->isAdmin() && ! auth()->user()->isModerator())) {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Services;
+namespace Cleargoal\Blog\Services;
 
-use YourVendor\Blog\Contracts\ContentSanitizer;
+use Cleargoal\Blog\Contracts\ContentSanitizer;
 
 /**
  * Default HTML content sanitizer using PHP's built-in strip_tags().

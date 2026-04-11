@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Jobs;
+namespace Cleargoal\Blog\Jobs;
 
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Contracts\BlogTranslationProvider;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Contracts\BlogTranslationProvider;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;

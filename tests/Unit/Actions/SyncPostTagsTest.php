@@ -1,9 +1,9 @@
 <?php
 
-use YourVendor\Blog\Actions\Blog\SyncPostTags;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\PostTag;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Actions\Blog\SyncPostTags;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\PostTag;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('creates new tags and attaches them to post', function () {

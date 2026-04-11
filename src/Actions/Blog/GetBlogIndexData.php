@@ -1,10 +1,10 @@
 <?php
 
-namespace YourVendor\Blog\Actions\Blog;
+namespace Cleargoal\Blog\Actions\Blog;
 
-use YourVendor\Blog\Models\BlogCategory;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\PostTag;
+use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\PostTag;
 
 class GetBlogIndexData
 {

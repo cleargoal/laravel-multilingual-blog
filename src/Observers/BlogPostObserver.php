@@ -1,12 +1,12 @@
 <?php
 
-namespace YourVendor\Blog\Observers;
+namespace Cleargoal\Blog\Observers;
 
-use YourVendor\Blog\Events\BlogPostCreated;
-use YourVendor\Blog\Events\BlogPostDeleted;
-use YourVendor\Blog\Events\BlogPostPublished;
-use YourVendor\Blog\Events\BlogPostUpdated;
-use YourVendor\Blog\Models\BlogPost;
+use Cleargoal\Blog\Events\BlogPostCreated;
+use Cleargoal\Blog\Events\BlogPostDeleted;
+use Cleargoal\Blog\Events\BlogPostPublished;
+use Cleargoal\Blog\Events\BlogPostUpdated;
+use Cleargoal\Blog\Models\BlogPost;
 
 class BlogPostObserver
 {

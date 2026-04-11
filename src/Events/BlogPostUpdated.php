@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Events;
+namespace Cleargoal\Blog\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use YourVendor\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogPost;
 
 class BlogPostUpdated
 {

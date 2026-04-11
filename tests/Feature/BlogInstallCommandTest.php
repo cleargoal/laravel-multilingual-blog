@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('publishes config file', function () {
@@ -71,12 +71,12 @@ it('can seed sample data when requested', function () {
         '--seed' => true,
     ]);
 
-    expect(\YourVendor\Blog\Models\BlogPost::count())->toBeGreaterThan(0);
-    expect(\YourVendor\Blog\Models\BlogCategory::count())->toBeGreaterThan(0);
+    expect(\Cleargoal\Blog\Models\BlogPost::count())->toBeGreaterThan(0);
+    expect(\Cleargoal\Blog\Models\BlogCategory::count())->toBeGreaterThan(0);
 });
 
 it('skips seeding when not requested', function () {
     Artisan::call('blog:install', ['--no-interaction' => true]);
 
-    expect(\YourVendor\Blog\Models\BlogPost::count())->toBe(0);
+    expect(\Cleargoal\Blog\Models\BlogPost::count())->toBe(0);
 });

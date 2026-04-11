@@ -1,8 +1,8 @@
 <?php
 
-namespace YourVendor\Blog\Actions\Blog;
+namespace Cleargoal\Blog\Actions\Blog;
 
-use YourVendor\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogPost;
 
 class GetBlogPostForShow
 {

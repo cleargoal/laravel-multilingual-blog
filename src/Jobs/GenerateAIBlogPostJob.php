@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Jobs;
+namespace Cleargoal\Blog\Jobs;
 
-use YourVendor\Blog\Services\BlogContentOrchestrator;
+use Cleargoal\Blog\Services\BlogContentOrchestrator;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;

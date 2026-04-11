@@ -1,9 +1,9 @@
 <?php
 
-use YourVendor\Blog\Actions\Blog\GetBlogAnalytics;
-use YourVendor\Blog\Models\BlogComment;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Actions\Blog\GetBlogAnalytics;
+use Cleargoal\Blog\Models\BlogComment;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('returns total posts count', function () {
@@ -119,14 +119,14 @@ it('calculates average rating', function () {
         'published_at' => now(),
     ]);
 
-    \YourVendor\Blog\Models\BlogPostRating::create([
+    \Cleargoal\Blog\Models\BlogPostRating::create([
         'user_id' => $user->id,
         'blog_post_id' => $post1->id,
         'rating' => 5,
     ]);
 
     $user2 = $this->createUser();
-    \YourVendor\Blog\Models\BlogPostRating::create([
+    \Cleargoal\Blog\Models\BlogPostRating::create([
         'user_id' => $user2->id,
         'blog_post_id' => $post2->id,
         'rating' => 3,

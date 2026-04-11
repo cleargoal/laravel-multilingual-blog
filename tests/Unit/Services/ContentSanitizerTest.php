@@ -1,7 +1,7 @@
 <?php
 
-use YourVendor\Blog\Services\DefaultContentSanitizer;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Services\DefaultContentSanitizer;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('allows safe HTML tags', function () {

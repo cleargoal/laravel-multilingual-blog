@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Models;
+namespace Cleargoal\Blog\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,8 +16,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
-use YourVendor\Blog\Contracts\ContentSanitizer;
-use YourVendor\Blog\Traits\HasTranslationFallback;
+use Cleargoal\Blog\Contracts\ContentSanitizer;
+use Cleargoal\Blog\Traits\HasTranslationFallback;
 
 class BlogPost extends Model implements HasMedia
 {

@@ -1,15 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
-use YourVendor\Blog\Events\BlogCommentApproved;
-use YourVendor\Blog\Events\BlogCommentPosted;
-use YourVendor\Blog\Events\BlogPostCreated;
-use YourVendor\Blog\Events\BlogPostDeleted;
-use YourVendor\Blog\Events\BlogPostPublished;
-use YourVendor\Blog\Events\BlogPostUpdated;
-use YourVendor\Blog\Models\BlogComment;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Events\BlogCommentApproved;
+use Cleargoal\Blog\Events\BlogCommentPosted;
+use Cleargoal\Blog\Events\BlogPostCreated;
+use Cleargoal\Blog\Events\BlogPostDeleted;
+use Cleargoal\Blog\Events\BlogPostPublished;
+use Cleargoal\Blog\Events\BlogPostUpdated;
+use Cleargoal\Blog\Models\BlogComment;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('dispatches BlogPostCreated event when post is created', function () {

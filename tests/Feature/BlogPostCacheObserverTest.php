@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Observers\BlogPostCacheObserver;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Observers\BlogPostCacheObserver;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 beforeEach(function () {

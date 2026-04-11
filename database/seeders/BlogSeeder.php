@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Database\Seeders;
+namespace Cleargoal\Blog\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use YourVendor\Blog\Models\BlogCategory;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\PostTag;
+use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\PostTag;
 
 class BlogSeeder extends Seeder
 {
@@ -247,7 +247,7 @@ class BlogSeeder extends Seeder
      */
     protected function createComments($author, array $posts): void
     {
-        $blogCommentModel = config('blog.models.blog_comment', \YourVendor\Blog\Models\BlogComment::class);
+        $blogCommentModel = config('blog.models.blog_comment', \Cleargoal\Blog\Models\BlogComment::class);
 
         foreach ($posts as $post) {
             // Skip draft and demo posts

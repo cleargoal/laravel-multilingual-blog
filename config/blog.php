@@ -11,11 +11,11 @@ return [
     |
     */
     'models' => [
-        'blog_post' => \YourVendor\Blog\Models\BlogPost::class,
-        'blog_category' => \YourVendor\Blog\Models\BlogCategory::class,
-        'blog_comment' => \YourVendor\Blog\Models\BlogComment::class,
-        'post_tag' => \YourVendor\Blog\Models\PostTag::class,
-        'blog_post_rating' => \YourVendor\Blog\Models\BlogPostRating::class,
+        'blog_post' => \Cleargoal\Blog\Models\BlogPost::class,
+        'blog_category' => \Cleargoal\Blog\Models\BlogCategory::class,
+        'blog_comment' => \Cleargoal\Blog\Models\BlogComment::class,
+        'post_tag' => \Cleargoal\Blog\Models\PostTag::class,
+        'blog_post_rating' => \Cleargoal\Blog\Models\BlogPostRating::class,
         'user' => \App\Models\User::class, // Your application's User model
     ],
 
@@ -73,7 +73,7 @@ return [
             'public' => ['web'],
             'user' => ['web', 'auth', 'verified'],
         ],
-        'authorizer' => \YourVendor\Blog\Services\DefaultBlogAuthorizer::class,
+        'authorizer' => \Cleargoal\Blog\Services\DefaultBlogAuthorizer::class,
     ],
 
     /*
@@ -85,7 +85,7 @@ return [
     | Default uses strip_tags(). For advanced sanitization, use mews/purifier.
     |
     */
-    'sanitizer' => \YourVendor\Blog\Services\DefaultContentSanitizer::class,
+    'sanitizer' => \Cleargoal\Blog\Services\DefaultContentSanitizer::class,
 
     /*
     |--------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Models;
+namespace Cleargoal\Blog\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

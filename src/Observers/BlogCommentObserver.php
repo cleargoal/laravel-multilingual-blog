@@ -1,10 +1,10 @@
 <?php
 
-namespace YourVendor\Blog\Observers;
+namespace Cleargoal\Blog\Observers;
 
-use YourVendor\Blog\Events\BlogCommentApproved;
-use YourVendor\Blog\Events\BlogCommentPosted;
-use YourVendor\Blog\Models\BlogComment;
+use Cleargoal\Blog\Events\BlogCommentApproved;
+use Cleargoal\Blog\Events\BlogCommentPosted;
+use Cleargoal\Blog\Models\BlogComment;
 
 class BlogCommentObserver
 {

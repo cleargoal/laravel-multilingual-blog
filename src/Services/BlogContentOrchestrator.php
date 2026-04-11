@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Services;
+namespace Cleargoal\Blog\Services;
 
 
-use YourVendor\Blog\Jobs\TranslateBlogPostJob;
-use YourVendor\Blog\Models\BlogCategory;
-use YourVendor\Blog\Models\BlogPost;
+use Cleargoal\Blog\Jobs\TranslateBlogPostJob;
+use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogPost;
 use Illuminate\Support\Facades\Log;
 
 class BlogContentOrchestrator
@@ -299,7 +299,7 @@ class BlogContentOrchestrator
         $author = $userModel::where('is_demo', false)
             ->inRandomOrder()
             ->get()
-            ->filter(fn($user) => $user instanceof \YourVendor\Blog\Contracts\BlogAuthor && $user->canManageBlogPosts())
+            ->filter(fn($user) => $user instanceof \Cleargoal\Blog\Contracts\BlogAuthor && $user->canManageBlogPosts())
             ->first();
 
         if (! $author) {

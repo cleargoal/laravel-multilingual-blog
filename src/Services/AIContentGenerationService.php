@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Services;
+namespace Cleargoal\Blog\Services;
 
-use YourVendor\Blog\Models\PlatformSetting;
+use Cleargoal\Blog\Models\PlatformSetting;
 use App\Services\AI\AnthropicContentProvider;
 use Illuminate\Support\Facades\Log;
 

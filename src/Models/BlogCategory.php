@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Models;
+namespace Cleargoal\Blog\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
-use YourVendor\Blog\Traits\HasTranslationFallback;
+use Cleargoal\Blog\Traits\HasTranslationFallback;
 
 class BlogCategory extends Model
 {

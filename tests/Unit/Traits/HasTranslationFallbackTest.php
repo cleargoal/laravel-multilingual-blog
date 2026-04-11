@@ -1,7 +1,7 @@
 <?php
 
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('returns translation for requested locale', function () {

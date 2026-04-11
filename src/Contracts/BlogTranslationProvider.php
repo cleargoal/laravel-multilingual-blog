@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Contracts;
+namespace Cleargoal\Blog\Contracts;
 
 interface BlogTranslationProvider
 {

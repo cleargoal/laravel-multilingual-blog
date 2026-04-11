@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Traits;
+namespace Cleargoal\Blog\Traits;
 
 /**
  * Trait for models using Spatie Translatable with graceful fallback.

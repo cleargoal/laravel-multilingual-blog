@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Actions\Blog;
+namespace Cleargoal\Blog\Actions\Blog;
 
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\PostTag;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\PostTag;
 
 class SyncPostTags
 {

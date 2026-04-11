@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog;
+namespace Cleargoal\Blog;
 
 use Illuminate\Support\ServiceProvider;
-use YourVendor\Blog\Contracts\BlogAuthorizer;
-use YourVendor\Blog\Contracts\BlogTranslationProvider;
-use YourVendor\Blog\Contracts\ContentSanitizer;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Observers\BlogCommentObserver;
-use YourVendor\Blog\Observers\BlogPostCacheObserver;
-use YourVendor\Blog\Observers\BlogPostObserver;
-use YourVendor\Blog\Services\DefaultBlogAuthorizer;
-use YourVendor\Blog\Services\DefaultContentSanitizer;
+use Cleargoal\Blog\Contracts\BlogAuthorizer;
+use Cleargoal\Blog\Contracts\BlogTranslationProvider;
+use Cleargoal\Blog\Contracts\ContentSanitizer;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Observers\BlogCommentObserver;
+use Cleargoal\Blog\Observers\BlogPostCacheObserver;
+use Cleargoal\Blog\Observers\BlogPostObserver;
+use Cleargoal\Blog\Services\DefaultBlogAuthorizer;
+use Cleargoal\Blog\Services\DefaultContentSanitizer;
 
 class BlogServiceProvider extends ServiceProvider
 {
@@ -90,13 +90,13 @@ class BlogServiceProvider extends ServiceProvider
         // Register commands
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \YourVendor\Blog\Console\Commands\BlogInstallCommand::class,
+                \Cleargoal\Blog\Console\Commands\BlogInstallCommand::class,
             ]);
         }
 
         // Register observers
         BlogPost::observe(BlogPostObserver::class);
-        \YourVendor\Blog\Models\BlogComment::observe(BlogCommentObserver::class);
+        \Cleargoal\Blog\Models\BlogComment::observe(BlogCommentObserver::class);
 
         if (config('blog.cache.enabled')) {
             BlogPost::observe(BlogPostCacheObserver::class);
@@ -115,8 +115,8 @@ class BlogServiceProvider extends ServiceProvider
     {
         \Filament\Facades\Filament::serving(function () {
             \Filament\Facades\Filament::registerResources([
-                \YourVendor\Blog\Filament\Resources\BlogPostResource::class,
-                \YourVendor\Blog\Filament\Resources\BlogCategoryResource::class,
+                \Cleargoal\Blog\Filament\Resources\BlogPostResource::class,
+                \Cleargoal\Blog\Filament\Resources\BlogCategoryResource::class,
             ]);
         });
     }

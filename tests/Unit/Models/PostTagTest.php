@@ -1,8 +1,8 @@
 <?php
 
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\PostTag;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\PostTag;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('increments usage count', function () {

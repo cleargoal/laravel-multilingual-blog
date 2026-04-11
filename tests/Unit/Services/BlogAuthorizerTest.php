@@ -1,8 +1,8 @@
 <?php
 
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Services\DefaultBlogAuthorizer;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Services\DefaultBlogAuthorizer;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('allows anyone to view published posts', function () {

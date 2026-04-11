@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Services;
+namespace Cleargoal\Blog\Services;
 
-use YourVendor\Blog\Contracts\BlogTranslationProvider;
+use Cleargoal\Blog\Contracts\BlogTranslationProvider;
 
 /**
  * Adapter for DeepL translation service.
@@ -16,7 +16,7 @@ use YourVendor\Blog\Contracts\BlogTranslationProvider;
  *
  * Configure in config/blog.php:
  * 'translation' => [
- *     'provider' => \YourVendor\Blog\Services\DeepLTranslationAdapter::class,
+ *     'provider' => \Cleargoal\Blog\Services\DeepLTranslationAdapter::class,
  *     'enabled' => true,
  * ]
  */
@@ -28,8 +28,8 @@ class DeepLTranslationAdapter implements BlogTranslationProvider
     {
         // Check if a translation package/service is available
         // Adjust this to match your actual translation implementation
-        if (class_exists('\\YourVendor\\DeepLTranslations\\DeepLApiKeyManager')) {
-            $this->manager = app('\\YourVendor\\DeepLTranslations\\DeepLApiKeyManager');
+        if (class_exists('\\Cleargoal\\DeepLTranslations\\DeepLApiKeyManager')) {
+            $this->manager = app('\\Cleargoal\\DeepLTranslations\\DeepLApiKeyManager');
         } elseif (config('services.deepl.api_key')) {
             // Fallback to direct DeepL API usage if configured
             $this->manager = null; // Will use direct API calls

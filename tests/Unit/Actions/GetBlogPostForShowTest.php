@@ -1,10 +1,10 @@
 <?php
 
-use YourVendor\Blog\Actions\Blog\GetBlogPostForShow;
-use YourVendor\Blog\Models\BlogComment;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\PostTag;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Actions\Blog\GetBlogPostForShow;
+use Cleargoal\Blog\Models\BlogComment;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\PostTag;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('retrieves post by slug with all relationships', function () {
@@ -94,7 +94,7 @@ it('returns approved comments only', function () {
 
 it('returns related posts from same category', function () {
     $user = $this->createUser();
-    $category = \YourVendor\Blog\Models\BlogCategory::create([
+    $category = \Cleargoal\Blog\Models\BlogCategory::create([
         'name' => ['en' => 'Laravel'],
         'slug' => 'laravel',
     ]);
@@ -137,14 +137,14 @@ it('calculates average rating', function () {
         'published_at' => now(),
     ]);
 
-    \YourVendor\Blog\Models\BlogPostRating::create([
+    \Cleargoal\Blog\Models\BlogPostRating::create([
         'user_id' => $user->id,
         'blog_post_id' => $post->id,
         'rating' => 5,
     ]);
 
     $user2 = $this->createUser();
-    \YourVendor\Blog\Models\BlogPostRating::create([
+    \Cleargoal\Blog\Models\BlogPostRating::create([
         'user_id' => $user2->id,
         'blog_post_id' => $post->id,
         'rating' => 3,

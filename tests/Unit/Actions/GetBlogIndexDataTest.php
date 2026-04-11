@@ -1,10 +1,10 @@
 <?php
 
-use YourVendor\Blog\Actions\Blog\GetBlogIndexData;
-use YourVendor\Blog\Models\BlogCategory;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\PostTag;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Actions\Blog\GetBlogIndexData;
+use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\PostTag;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('returns paginated published posts', function () {

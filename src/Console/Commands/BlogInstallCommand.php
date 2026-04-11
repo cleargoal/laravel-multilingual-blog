@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Console\Commands;
+namespace Cleargoal\Blog\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -143,13 +143,13 @@ class BlogInstallCommand extends Command
      */
     protected function seedDatabase(): void
     {
-        if (! class_exists('YourVendor\\Blog\\Database\\Seeders\\BlogSeeder')) {
+        if (! class_exists('Cleargoal\\Blog\\Database\\Seeders\\BlogSeeder')) {
             $this->warn('BlogSeeder not found. Skipping seeding.');
             return;
         }
 
         $this->info('Seeding database with sample blog data...');
-        $this->call('db:seed', ['--class' => 'YourVendor\\Blog\\Database\\Seeders\\BlogSeeder']);
+        $this->call('db:seed', ['--class' => 'Cleargoal\\Blog\\Database\\Seeders\\BlogSeeder']);
         $this->info('✓ Database seeded');
         $this->newLine();
     }
@@ -164,13 +164,13 @@ class BlogInstallCommand extends Command
 
         $this->comment('Next Steps:');
         $this->line('1. Add BlogAuthor interface to your User model:');
-        $this->line('   - use YourVendor\Blog\Contracts\BlogAuthor;');
+        $this->line('   - use Cleargoal\Blog\Contracts\BlogAuthor;');
         $this->line('   - class User extends Authenticatable implements BlogAuthor');
         $this->line('   - Implement required methods: getId(), getName(), getEmail(), canManageBlogPosts()');
         $this->newLine();
 
         $this->line('2. Add HasBlogPosts trait to your User model:');
-        $this->line('   - use YourVendor\Blog\Traits\HasBlogPosts;');
+        $this->line('   - use Cleargoal\Blog\Traits\HasBlogPosts;');
         $this->newLine();
 
         $this->line('3. Configure the package in config/blog.php:');

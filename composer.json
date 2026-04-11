@@ -1,5 +1,5 @@
 {
-    "name": "yourvendor/laravel-multilingual-blog",
+    "name": "cleargoal/laravel-multilingual-blog",
     "description": "Complete multilingual blog system with AI generation, RSS imports, and Filament admin",
     "keywords": [
         "laravel",
@@ -15,8 +15,8 @@
     "type": "library",
     "authors": [
         {
-            "name": "Your Name",
-            "email": "your@email.com"
+            "name": "Volodymyr Yefremov",
+            "email": "cleargoal01@gmail.com"
         }
     ],
     "require": {
@@ -41,19 +41,19 @@
     },
     "autoload": {
         "psr-4": {
-            "YourVendor\\Blog\\": "src/",
-            "YourVendor\\Blog\\Database\\Seeders\\": "database/seeders/"
+            "Cleargoal\\Blog\\": "src/",
+            "Cleargoal\\Blog\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "YourVendor\\Blog\\Tests\\": "tests/"
+            "Cleargoal\\Blog\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "YourVendor\\Blog\\BlogServiceProvider"
+                "Cleargoal\\Blog\\BlogServiceProvider"
             ]
         }
     },
@@ -68,6 +68,6 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

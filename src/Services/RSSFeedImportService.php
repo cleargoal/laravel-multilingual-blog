@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Services;
+namespace Cleargoal\Blog\Services;
 
 use App\Enums\UserRole;
-use YourVendor\Blog\Models\BlogCategory;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Models\BlogRssImport;
-use YourVendor\Blog\Models\PlatformSetting;
-use YourVendor\Blog\Models\User;
+use Cleargoal\Blog\Models\BlogCategory;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogRssImport;
+use Cleargoal\Blog\Models\PlatformSetting;
+use Cleargoal\Blog\Models\User;
 use App\Notifications\RSSImportError;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;

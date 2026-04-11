@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Actions\Blog;
+namespace Cleargoal\Blog\Actions\Blog;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use YourVendor\Blog\Models\PostTag;
+use Cleargoal\Blog\Models\PostTag;
 
 class GetPopularTags
 {

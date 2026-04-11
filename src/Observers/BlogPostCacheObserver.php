@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Observers;
+namespace Cleargoal\Blog\Observers;
 
-use YourVendor\Blog\Models\BlogPost;
+use Cleargoal\Blog\Models\BlogPost;
 use Illuminate\Support\Facades\Cache;
 
 class BlogPostCacheObserver

@@ -1,8 +1,8 @@
 <?php
 
-use YourVendor\Blog\Models\BlogComment;
-use YourVendor\Blog\Models\BlogPost;
-use YourVendor\Blog\Tests\TestCase;
+use Cleargoal\Blog\Models\BlogComment;
+use Cleargoal\Blog\Models\BlogPost;
+use Cleargoal\Blog\Tests\TestCase;
 
 
 it('belongs to a blog post', function () {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace YourVendor\Blog\Http\Controllers;
+namespace Cleargoal\Blog\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use YourVendor\Blog\Actions\Blog\GetBlogAnalytics;
-use YourVendor\Blog\Contracts\BlogAuthor;
+use Cleargoal\Blog\Actions\Blog\GetBlogAnalytics;
+use Cleargoal\Blog\Contracts\BlogAuthor;
 
 class UserBlogController extends Controller implements HasMiddleware
 {
@@ -71,7 +71,7 @@ class UserBlogController extends Controller implements HasMiddleware
     {
         $user = auth()->user();
 
-        $blogPostModel = config('blog.models.blog_post', \YourVendor\Blog\Models\BlogPost::class);
+        $blogPostModel = config('blog.models.blog_post', \Cleargoal\Blog\Models\BlogPost::class);
 
         $posts = $blogPostModel::whereHas('favoritedBy', function ($query) use ($user) {
             $query->where('user_id', $user->id);
