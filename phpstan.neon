@@ -5,6 +5,10 @@ parameters:
     paths:
         - src
 
+    excludePaths:
+        # Filament is an optional dependency — exclude from static analysis
+        - src/Filament
+
     level: 5
 
     ignoreErrors:

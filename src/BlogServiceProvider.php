@@ -62,7 +62,10 @@ class BlogServiceProvider extends ServiceProvider
             __DIR__.'/../config/blog-automation.php' => config_path('blog-automation.php'),
         ], ['blog-automation-config', 'config']);
 
-        // Publish migrations
+        // Auto-load migrations from package (no need to publish unless customizing)
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        // Publish migrations (optional - only if user wants to customize)
         $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),
         ], ['blog-migrations', 'migrations']);
@@ -97,6 +100,9 @@ class BlogServiceProvider extends ServiceProvider
             $this->commands([
                 BlogInstallCommand::class,
             ]);
+
+            // Show installation reminder on first install
+            $this->showInstallationReminder();
         }
 
         // Register observers
@@ -123,6 +129,20 @@ class BlogServiceProvider extends ServiceProvider
                 BlogPostResource::class,
                 BlogCategoryResource::class,
             ]);
+        });
+    }
+
+    /**
+     * Show installation reminder when migrations have not been run yet.
+     */
+    protected function showInstallationReminder(): void
+    {
+        // Output a helpful reminder after app is booted
+        $this->app->booted(function () {
+            fwrite(STDOUT, "\n");
+            fwrite(STDOUT, "  \033[32mINFO\033[0m  Laravel Blog Package installed.\n");
+            fwrite(STDOUT, "        Run [php artisan migrate] to create blog tables.\n");
+            fwrite(STDOUT, "\n");
         });
     }
 }

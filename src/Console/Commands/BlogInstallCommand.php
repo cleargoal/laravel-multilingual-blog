@@ -15,9 +15,7 @@ class BlogInstallCommand extends Command
      */
     protected $signature = 'blog:install
                             {--force : Overwrite existing files}
-                            {--seed : Seed the database with sample blog data}
-                            {--migrate : Run migrations automatically}
-                            {--skip-migrations : Skip running migrations}';
+                            {--seed : Seed the database with sample blog data}';
 
     /**
      * The console command description.
@@ -37,13 +35,8 @@ class BlogInstallCommand extends Command
         // Publish configurations
         $this->publishConfigurations();
 
-        // Publish migrations
-        if (! $this->option('skip-migrations')) {
-            $this->publishMigrations();
-            $this->runMigrations();
-        } else {
-            $this->warn('Skipping migrations (--skip-migrations flag set)');
-        }
+        // Prompt for migrations reminder
+        $this->showMigrationsReminder();
 
         // Publish views (optional)
         $this->publishViews();
@@ -78,41 +71,29 @@ class BlogInstallCommand extends Command
     }
 
     /**
-     * Publish migration files.
+     * Show migrations reminder.
      */
-    protected function publishMigrations(): void
+    protected function showMigrationsReminder(): void
     {
-        $this->info('Publishing migration files...');
+        $this->info('Migrations are auto-loaded from the package.');
 
-        $params = ['--tag' => 'blog-migrations'];
-        if ($this->option('force')) {
-            $params['--force'] = true;
-        }
-
-        $this->call('vendor:publish', $params);
-
-        $this->info('✓ Migration files published');
-        $this->newLine();
-    }
-
-    /**
-     * Run database migrations.
-     */
-    protected function runMigrations(): void
-    {
-        $shouldMigrate = $this->option('migrate') || $this->confirm('Run migrations now?', true);
-
-        if ($shouldMigrate) {
-            $this->info('Running migrations...');
-            try {
-                $this->call('migrate', ['--force' => true]);
-                $this->info('✓ Migrations completed');
-            } catch (\Exception $e) {
-                $this->warn('Some migrations may have already been run: '.$e->getMessage());
-            }
-            $this->newLine();
+        if ($this->confirm('Run migrations now?', true)) {
+            $this->call('migrate', ['--force' => true]);
+            $this->info('✓ Migrations completed');
         } else {
             $this->warn('Remember to run migrations later: php artisan migrate');
+        }
+
+        $this->newLine();
+
+        // Optionally publish migrations for customization
+        if ($this->confirm('Publish migration files for customization? (optional)', false)) {
+            $params = ['--tag' => 'blog-migrations'];
+            if ($this->option('force')) {
+                $params['--force'] = true;
+            }
+            $this->call('vendor:publish', $params);
+            $this->info('✓ Migration files published to database/migrations');
             $this->newLine();
         }
     }

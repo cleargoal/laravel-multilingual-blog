@@ -42,17 +42,23 @@ A complete, production-ready multilingual blog system for Laravel with AI conten
 composer require cleargoal/laravel-multilingual-blog
 ```
 
-### 2. Run Installation Command
+### 2. Run Migrations
 
+Migrations are auto-loaded from the package, just run:
+
+```bash
+php artisan migrate
+```
+
+Or use the install command for full setup with configuration:
 ```bash
 php artisan blog:install
 ```
 
-This will:
-- Publish configuration files
-- Publish and run migrations
+The `blog:install` command will:
+- Publish configuration files (`config/blog.php`, `config/blog-automation.php`)
 - Optionally publish views for customization
-- Optionally seed sample data
+- Optionally seed sample data (with `--seed` flag)
 
 ### 3. Implement BlogAuthor Interface
 

@@ -23,10 +23,6 @@ class TestCase extends Orchestra
             DB::statement('PRAGMA foreign_keys = ON;');
         }
 
-        // Run blog migration manually
-        $migration = include __DIR__.'/../database/migrations/2024_01_01_000000_create_blog_tables.php';
-        $migration->up();
-
         // Create users table for testing
         Schema::create('users', function ($table) {
             $table->id();
@@ -37,6 +33,10 @@ class TestCase extends Orchestra
             $table->boolean('is_demo')->default(false);
             $table->timestamps();
         });
+
+        // Run blog migration manually (to avoid running Laravel's default migrations)
+        $migration = include __DIR__.'/../database/migrations/2024_01_01_000000_create_blog_tables.php';
+        $migration->up();
 
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Cleargoal\\Blog\\Database\\Factories\\'.class_basename($modelName).'Factory'
