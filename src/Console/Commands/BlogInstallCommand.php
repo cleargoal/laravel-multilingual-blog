@@ -41,6 +41,9 @@ class BlogInstallCommand extends Command
         // Publish views (optional)
         $this->publishViews();
 
+        // Propose Filament installation (optional)
+        $this->proposeFilamentInstallation();
+
         // Seed database (optional)
         if ($this->option('seed')) {
             $this->seedDatabase();
@@ -119,6 +122,50 @@ class BlogInstallCommand extends Command
     }
 
     /**
+     * Propose Filament admin panel installation.
+     */
+    protected function proposeFilamentInstallation(): void
+    {
+        // Check if Filament is already installed
+        if (class_exists('Filament\FilamentServiceProvider')) {
+            $this->info('✓ Filament is already installed. Blog admin resources are available.');
+            $this->newLine();
+
+            return;
+        }
+
+        // Propose Filament installation
+        if ($this->confirm('Would you like to install Filament admin panel for blog management?', false)) {
+            $this->info('Installing Filament...');
+            $this->newLine();
+
+            try {
+                // Install Filament via composer
+                $this->call('composer:require', ['packages' => ['filament/filament'], '--no-interaction' => true]);
+
+                // Run Filament install
+                $this->call('filament:install', ['--no-interaction' => true]);
+
+                $this->info('✓ Filament installed successfully!');
+                $this->info('  Access your admin panel at /admin');
+                $this->info('  Blog resources are available under the "Blog" navigation group.');
+            } catch (\Exception $e) {
+                $this->warn('Could not install Filament automatically.');
+                $this->line('To install manually, run:');
+                $this->line('  composer require filament/filament');
+                $this->line('  php artisan filament:install');
+            }
+
+            $this->newLine();
+        } else {
+            $this->info('You can install Filament later by running:');
+            $this->line('  composer require filament/filament');
+            $this->line('  php artisan filament:install');
+            $this->newLine();
+        }
+    }
+
+    /**
      * Seed the database with sample data.
      */
     protected function seedDatabase(): void
@@ -160,13 +207,19 @@ class BlogInstallCommand extends Command
         $this->line('   - Customize routes, pagination, etc.');
         $this->newLine();
 
-        $this->line('4. (Optional) Enable blog automation in config/blog-automation.php:');
+        $this->line('4. (Optional) Install Filament admin panel:');
+        $this->line('   - composer require filament/filament');
+        $this->line('   - php artisan filament:install');
+        $this->line('   - Access blog management at /admin');
+        $this->newLine();
+
+        $this->line('5. (Optional) Enable blog automation in config/blog-automation.php:');
         $this->line('   - Configure AI content generation');
         $this->line('   - Set up RSS feed imports');
         $this->line('   - Configure translation services');
         $this->newLine();
 
-        $this->line('5. Visit /blog to see your blog in action!');
+        $this->line('6. Visit /blog to see your blog in action!');
         $this->newLine();
 
         $this->comment('For more information, visit the documentation or README.md');

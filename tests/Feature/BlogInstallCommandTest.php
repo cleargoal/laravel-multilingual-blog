@@ -28,6 +28,7 @@ it('publishes config file', function () {
         ->expectsConfirmation('Run migrations now?', 'no') // First question in showMigrationsReminder
         ->expectsConfirmation('Publish migration files for customization? (optional)', 'no') // Second question in showMigrationsReminder
         ->expectsConfirmation('Publish view files for customization?', 'no') // Question in publishViews
+        ->expectsConfirmation('Would you like to install Filament admin panel for blog management?', 'no') // Question in proposeFilamentInstallation
         ->assertSuccessful();
 
     expect(File::exists($configPath))->toBeTrue();
@@ -47,6 +48,7 @@ it('can publish migrations for customization', function () {
         ->expectsConfirmation('Run migrations now?', 'no')
         ->expectsConfirmation('Publish migration files for customization? (optional)', 'yes')
         ->expectsConfirmation('Publish view files for customization?', 'no')
+        ->expectsConfirmation('Would you like to install Filament admin panel for blog management?', 'no')
         ->assertSuccessful();
 
     $migrationFiles = File::glob($migrationsPath.'/*_create_blog_tables.php');
@@ -72,6 +74,7 @@ it('displays success message', function () {
         ->expectsConfirmation('Run migrations now?', 'no')
         ->expectsConfirmation('Publish migration files for customization? (optional)', 'no')
         ->expectsConfirmation('Publish view files for customization?', 'no')
+        ->expectsConfirmation('Would you like to install Filament admin panel for blog management?', 'no')
         ->assertSuccessful()
         ->expectsOutputToContain('Blog package installed successfully');
 });
@@ -83,6 +86,7 @@ it('can seed sample data when requested', function () {
         ->expectsConfirmation('Run migrations now?', 'no')
         ->expectsConfirmation('Publish migration files for customization? (optional)', 'no')
         ->expectsConfirmation('Publish view files for customization?', 'no')
+        ->expectsConfirmation('Would you like to install Filament admin panel for blog management?', 'no')
         ->assertSuccessful();
 
     expect(BlogPost::count())->toBeGreaterThan(0);
@@ -94,6 +98,7 @@ it('skips seeding when not requested', function () {
         ->expectsConfirmation('Run migrations now?', 'no')
         ->expectsConfirmation('Publish migration files for customization? (optional)', 'no')
         ->expectsConfirmation('Publish view files for customization?', 'no')
+        ->expectsConfirmation('Would you like to install Filament admin panel for blog management?', 'no')
         ->assertSuccessful();
 
     expect(BlogPost::count())->toBe(0);

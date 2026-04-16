@@ -35,7 +35,7 @@
         "laravel/pint": "^1.0"
     },
     "suggest": {
-        "filament/filament": "Required for admin panel integration (^4.0)",
+        "filament/filament": "Admin panel for managing blog posts and categories - highly recommended (^4.0)",
         "anthropics/anthropic-sdk-php": "Required for AI content generation (^1.0)",
         "spatie/laravel-feed": "Required for RSS feed generation (^4.0)",
         "mews/purifier": "Recommended for advanced HTML sanitization (^3.3)"

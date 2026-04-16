@@ -58,7 +58,19 @@ php artisan blog:install
 The `blog:install` command will:
 - Publish configuration files (`config/blog.php`, `config/blog-automation.php`)
 - Optionally publish views for customization
+- Optionally install Filament admin panel
 - Optionally seed sample data (with `--seed` flag)
+
+### 3. (Optional) Install Filament Admin Panel
+
+The package includes Filament v4 resources for managing blog posts and categories. To enable the admin panel:
+
+```bash
+composer require filament/filament
+php artisan filament:install
+```
+
+Once Filament is installed, blog resources will automatically appear in your admin panel under the **Blog** navigation group.
 
 ### 3. Implement BlogAuthor Interface
 
@@ -371,6 +383,48 @@ protected $listen = [
         \App\Listeners\NotifySubscribers::class,
     ],
 ];
+```
+
+## Admin Panel (Filament)
+
+The package includes **optional** Filament v4 resources for managing your blog through a beautiful admin interface.
+
+### Features
+
+- **Blog Posts Management**: Full CRUD with multilingual content tabs, featured images, tags, and status control
+- **Categories Management**: Hierarchical categories with sorting and activation controls
+- **Bulk Actions**: Publish, archive, or delete multiple posts at once
+- **Rich Text Editor**: WYSIWYG editor for content creation
+- **Media Library Integration**: Drag-and-drop featured image uploads
+- **View on Site**: Quick link to view published posts on the frontend
+
+### Installation
+
+Filament is **optional** and only loaded when installed:
+
+```bash
+# Install Filament
+composer require filament/filament
+
+# Run Filament's installer
+php artisan filament:install
+
+# Create a Filament user (if you don't have one)
+php artisan make:filament-user
+```
+
+Once installed, the blog resources will automatically appear in your Filament admin panel at `/admin` under the **Blog** navigation group.
+
+### Conditional Loading
+
+The Filament resources use conditional loading - if Filament is not installed, the package works perfectly without it. No errors, no warnings, just a pure blog system managed through code or custom controllers.
+
+```php
+// In your service provider, Filament resources are only registered
+// if the Filament\Facades\Filament class exists
+if (class_exists('\Filament\Facades\Filament')) {
+    // Register Filament resources
+}
 ```
 
 ## Testing
