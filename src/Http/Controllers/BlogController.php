@@ -44,12 +44,15 @@ class BlogController extends Controller
         return view('blog::show', $data);
     }
 
-    public function category($slug): Factory|View
+    public function category(?string $categorySlug = null): Factory|View
     {
         ['posts' => $posts, 'categories' => $categories, 'popularTags' => $popularTags] =
-            app(GetBlogIndexData::class)->execute($slug, null, null);
+            app(GetBlogIndexData::class)->execute($categorySlug, null, null);
 
-        return view('blog::category', compact('posts', 'categories', 'popularTags'));
+        // Get the category model if a slug was provided
+        $category = $categorySlug ? BlogCategory::where('slug', $categorySlug)->first() : null;
+
+        return view('blog::category', compact('posts', 'categories', 'popularTags', 'category'));
     }
 
     public function myPosts(): Factory|View

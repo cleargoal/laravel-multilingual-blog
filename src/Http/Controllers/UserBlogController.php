@@ -10,18 +10,9 @@ use Cleargoal\Blog\Models\BlogPost;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controller;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 
-class UserBlogController extends Controller implements HasMiddleware
+class UserBlogController extends Controller
 {
-    public static function middleware(): array
-    {
-        return [
-            new Middleware(config('blog.authorization.middleware.user', ['web', 'auth', 'verified'])),
-        ];
-    }
-
     /**
      * Show blog analytics for the authenticated user.
      */
