@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cleargoal\Blog;
 
 use Cleargoal\Blog\Console\Commands\BlogInstallCommand;
+use Cleargoal\Blog\Console\Commands\BlogUpdateCommand;
 use Cleargoal\Blog\Contracts\BlogAuthorizer;
 use Cleargoal\Blog\Contracts\BlogTranslationProvider;
 use Cleargoal\Blog\Contracts\ContentSanitizer;
@@ -99,6 +100,7 @@ class BlogServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 BlogInstallCommand::class,
+                BlogUpdateCommand::class,
             ]);
 
             // Show installation reminder on first install
